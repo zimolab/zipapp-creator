@@ -1,0 +1,1 @@
+pyguiadapterlite == 0.6.10

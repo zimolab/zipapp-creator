@@ -1,0 +1,170 @@
+import os
+import shlex
+import shutil
+import subprocess
+import time
+from pathlib import Path
+from typing import Literal
+
+from pyguiadapterlite import uprint, is_function_cancelled
+
+_MSG_LABEL_INFO = "INFO".ljust(7)
+_MSG_LABEL_ERROR = "ERROR".ljust(7)
+_MSG_LABEL_WARNING = "WARNING".ljust(7)
+_MSG_LABEL_SUCCESS = "SUCCESS".ljust(7)
+
+
+class CanceledByUser(RuntimeError):
+    pass
+
+
+def info(msg: str, end="\n"):
+    uprint(f"\033[1m{_MSG_LABEL_INFO} {msg}\033[0m", end=end)
+
+
+def error(msg: str, end="\n"):
+    uprint(f"\033[1m\033[31m{_MSG_LABEL_ERROR} {msg}\033[0m", end=end)
+
+
+def warning(msg: str, end="\n"):
+    uprint(f"\033[1m\033[33m{_MSG_LABEL_WARNING} {msg}\033[0m", end=end)
+
+
+def success(msg: str, end="\n"):
+    uprint(f"\033[1m\033[32m{_MSG_LABEL_SUCCESS} {msg}\033[0m", end=end)
+
+
+def read_process_output(process: subprocess.Popen) -> bool:
+    uprint()
+    hinted = False
+    cancelled = False
+    while True:
+        if process.poll() is not None:
+            break
+        output = process.stdout.readline()
+        if output:
+            uprint(output, end="")
+        time.sleep(0.01)
+        if is_function_cancelled():
+            if not hinted:
+                uprint()
+                hinted = True
+            process.terminate()
+            cancelled = True
+    uprint()
+    return cancelled
+
+
+def pip_install(
+    py: str | Path,
+    requirements: str | Path,
+    target_dir: str | Path,
+    index_url: str = None,
+):
+    cmd = [
+        str(py),
+        "-m",
+        "pip",
+        "install",
+        "-r",
+        Path(requirements).as_posix(),
+        "--target",
+        Path(target_dir).as_posix(),
+    ]
+    if index_url:
+        cmd.extend(["--index-url", index_url])
+    info("Installing dependencies with pip install...")
+
+    uprint()
+    uprint(shlex.join(cmd))
+    uprint()
+
+    process = subprocess.Popen(
+        cmd,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        universal_newlines=True,
+    )
+    cancelled = read_process_output(process)
+    if cancelled:
+        raise CanceledByUser("pip install cancelled by user!")
+
+    if process.returncode != 0:
+        raise RuntimeError(f"non-zero exit code from pip install: {process.returncode}")
+
+    success(f"pip install completed successfully!")
+
+
+def cleanup_dependency(target_dir: str | Path):
+    target_dir = Path(target_dir)
+
+    info(f"Cleaning up dependencies in {target_dir.as_posix()}")
+
+    # 删除所有 .dist-info 目录
+    for dist_info in target_dir.glob("*.dist-info"):
+        if dist_info.is_dir():
+            shutil.rmtree(dist_info)
+            info(f"Remove dist-info directory: {dist_info.as_posix()}")
+
+    # 删除所有 __pycache__ 目录
+    for pycache in target_dir.rglob("__pycache__"):
+        if pycache.is_dir():
+            shutil.rmtree(pycache)
+            info(f"Remove __pycache__ directory: {pycache.as_posix()}")
+
+    # 删除所有 .pyc 文件
+    for pyc_file in target_dir.rglob("*.pyc"):
+        pyc_file.unlink()
+        info(f"Remove .pyc file: {pyc_file.as_posix()}")
+
+    success(f"Dependencies cleaned up!")
+
+
+def copy_source_tree(
+    source_dir: str | Path, dist_dir: str | Path, ignore_patterns: list[str]
+):
+    source_dir = Path(source_dir).absolute().as_posix()
+    dist_dir = Path(dist_dir).absolute().as_posix()
+
+    if os.path.isdir(dist_dir):
+        shutil.rmtree(dist_dir, ignore_errors=True)
+
+    if not os.path.isdir(dist_dir):
+        os.makedirs(dist_dir, exist_ok=True)
+
+    shutil.copytree(
+        source_dir,
+        dist_dir,
+        ignore=shutil.ignore_patterns(*ignore_patterns),
+        dirs_exist_ok=True,
+    )
+
+
+def ignored_files(
+    start_dir: str | Path,
+    patterns: list[str],
+    path_type: Literal["Path", "absolute", "relative"] = "Path",
+    posix: bool = True,
+) -> set[Path]:
+    start_dir = Path(start_dir)
+    ignored = set()
+    for pattern in patterns:
+        selected = start_dir.rglob(pattern)
+        if path_type == "Path":
+            ignored.update(selected)
+        elif path_type == "absolute":
+            ignored.update(
+                (p.absolute().as_posix() if posix else p.absolute()) for p in selected
+            )
+        elif path_type == "relative":
+            ignored.update(
+                (
+                    p.relative_to(start_dir).as_posix()
+                    if posix
+                    else p.relative_to(start_dir)
+                )
+                for p in selected
+            )
+        else:
+            raise ValueError(f"invalid path_type: {path_type}")
+    return ignored
