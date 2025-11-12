@@ -32,7 +32,6 @@ DEFAULT_COPY_EXCLUDE_PATTERNS = [
     ".idea",
     "build",
     "dist",
-    "__pycache__",
 ]
 DEFAULT_PACKAGING_EXCLUDE_PATTERNS = [
     "venv",
@@ -47,9 +46,9 @@ DEFAULT_PACKAGING_EXCLUDE_PATTERNS = [
     "poetry.lock",
     "pyproject.toml",
     "requirements.txt",
-    "app/test/*",
+    "*.egg-info",
 ]
 
 DIST_DIR = "zipapp_dist"
 
-START_SCRIPT_TEMPLATE = "startup.vbs"
+START_SCRIPT_TEMPLATE = "startup_template.vbs"
