@@ -40,6 +40,7 @@ from ..consts import (
     DEFAULT_ENTRY_POINT,
     START_SCRIPT_TEMPLATE,
 )
+from ..messages import messages
 from ..selfextracting import create_startup_script
 
 
@@ -52,6 +53,7 @@ class ZipAppCreator(object):
     def __init__(self, app_config: AppConfig):
         self._app_config = app_config
         self._startup_script_template = Template(read_asset_text(START_SCRIPT_TEMPLATE))
+        self._msgs = messages()
 
     @staticmethod
     def _packaging_filter(
@@ -103,11 +105,11 @@ class ZipAppCreator(object):
         self_extract = bool(self_extract)
 
         source = Path(source).absolute()
-        info(f"Start creating zipapp for {source.as_posix()}...")
+        info(self._msgs.MSG_START_PACKAGING)
 
         dist_root_dir = (source / Path(DIST_DIR)).absolute()
         dist_proj_dir = (dist_root_dir / source.name).absolute()
-        info(f"Copying source files to {dist_proj_dir.as_posix()}...")
+        info(self._msgs.MSG_COPY_SOURCE_FILES.format(dist_proj_dir.as_posix()))
 
         exclude_from_copy = exclude_from_copy or []
         exclude_from_copy.append(f"{dist_root_dir.name.lstrip('/')}")
@@ -132,7 +134,7 @@ class ZipAppCreator(object):
                 error(str(e))
                 return
             except Exception as e:
-                error(f"Failed to install dependencies: {e}")
+                error(self._msgs.MSG_PIP_INSTALL_FAILURE.format(str(e)))
                 return
             if cleanup_dependencies:
                 cleanup_dependency(target_dir=dist_proj_dir)
@@ -142,7 +144,7 @@ class ZipAppCreator(object):
             target = target.strip() or "{SOURCE}.pyz"
             target = target.format(SOURCE=source.name)
             target = Path(dist_root_dir) / target
-            info(f"Creating zipapp...")
+            info(self._msgs.MSG_CREATING_ZIPAPP)
 
             if self_extract:
                 start_script = create_startup_script(dist_proj_dir, entry)
@@ -156,25 +158,25 @@ class ZipAppCreator(object):
                 compressed=bool(compressed),
                 filter=self._packaging_filter(exclude_from_packaging, dist_proj_dir),
             )
-            success(f"Zipapp created successfully!")
-            info(f"Zipapp file: {target.as_posix()}")
+            success(self._msgs.MSG_ZIPAPP_CREATED.format(target.as_posix()))
 
             if start_script:
-                info(f"Creating start script for Windows...")
+                info(self._msgs.MSG_CREATING_STARTUP_SCRIPT)
                 script_path = self._create_start_script(
                     target.as_posix(), start_script_py
                 )
-                success(f"Start script created successfully!")
-                info(f"Start script file: {script_path.as_posix()}")
+                success(
+                    self._msgs.MSG_STARTUP_SCRIPT_CREATED.format(script_path.as_posix())
+                )
 
         except Exception as e:
             traceback.print_exc()
-            error(f"Failed to create zipapp: {e}")
+            error(self._msgs.MSG_CREATE_ZIPAPP_FAILURE.format(str(e)))
             return
 
     # noinspection PyUnusedLocal
-    @staticmethod
     def _parameter_validator(
+        self,
         func_name: str,
         source: dir_t,
         entry: str,
@@ -191,19 +193,18 @@ class ZipAppCreator(object):
 
         source = source.strip()
         if not source:
-            invalid_params["source"] = tr("Source Directory is required")
+            invalid_params["source"] = self._msgs.MSG_SOURCE_DIR_REQUIRED
         else:
             if not Path(source).is_dir():
-                invalid_params["source"] = tr("Please specify a valid source directory")
+                invalid_params["source"] = self._msgs.MSG_SOURCE_DIR_NOT_FOUND
 
         entry = entry.strip()
         if source:
             main_file = Path(source) / "__main__.py"
             if self_extract:
                 if main_file.is_file():
-                    invalid_params["self_extract"] = tr(
-                        "An explicit __main__.py is not allowed in self-extracting zipapp, please consider remove it "
-                        "and specify the entry point python file instead!"
+                    invalid_params["self_extract"] = (
+                        self._msgs.MSG_MAIN_FILE_NOT_ALLOWED
                     )
                 if not entry or not (Path(source) / entry).is_file():
                     invalid_params["entry"] = tr(

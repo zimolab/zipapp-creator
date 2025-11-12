@@ -29,6 +29,23 @@ class _Messages(object):
         self.MSG_MENU_FILE = tr("File")
         self.MSG_MENU_VIEW = tr("View")
         self.MSG_MENU_HELP = tr("Help")
+        self.MSG_START_PACKAGING = tr("Start packaging...")
+        self.MSG_COPY_SOURCE_FILES = tr("Copying source files to {}...")
+        self.MSG_PIP_INSTALL_FAILURE = tr("Failed to install dependencies: {}")
+        self.MSG_CREATING_ZIPAPP = tr("Creating zipapp...")
+        self.MSG_ZIPAPP_CREATED = tr("Zipapp created: {}")
+        self.MSG_CREATING_STARTUP_SCRIPT = tr(
+            "Creating startup script for Windows os..."
+        )
+        self.MSG_STARTUP_SCRIPT_CREATED = tr("Startup script created: {}")
+        self.MSG_CREATE_ZIPAPP_FAILURE = tr("Failed to create zipapp: {}")
+
+        self.MSG_SOURCE_DIR_REQUIRED = tr("Source directory is required!")
+        self.MSG_SOURCE_DIR_NOT_FOUND = tr("Source directory not found!")
+        self.MSG_MAIN_FILE_NOT_ALLOWED = tr(
+            "A __main__.py file is found in the source directory, "
+            "which is not allowed when creating a self-extracting zipapp!"
+        )
 
 
 _messages = None
