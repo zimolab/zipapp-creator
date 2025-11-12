@@ -1,6 +1,9 @@
 # zipapp-creator
 
-A simple tool to create a zipapp for your Python project.
+A simple tool to help you create a zipapp for your Python project with its dependencies.
+The output zipapp can be self-extracting, which allows you package c-extensions 
+within it.
+
 
 ## Features
 
