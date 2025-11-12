@@ -1,4 +1,6 @@
+import json
 import sys
+from pathlib import Path
 
 from pyguiadapterlite import Menu, Action, FnExecuteWindow, Separator
 from pyguiadapterlite.components.textview import SimpleTextViewer
@@ -14,12 +16,62 @@ LICENSE_FILE = "LICENSE"
 _menus = None
 
 
+# noinspection PyUnusedLocal
 def _on_action_save_params(window: FnExecuteWindow, action: Action):
-    pass
+    tr = trfunc()
+    save_filepath = window.select_save_file(
+        title=tr("Save Parameters"),
+        filetypes=[(tr("JSON Files"), "*.json"), (tr("All Files"), "*")],
+    )
+    if not save_filepath:
+        return
+    save_filepath = Path(save_filepath)
+    param_values = window.get_parameter_values()
+    ret = window.check_invalid_parameters(param_values)
+    if not ret:
+        return
+    try:
+        with open(save_filepath, "w", encoding="utf-8") as f:
+            json.dump(param_values, f, indent=2, ensure_ascii=False)
+    except BaseException as e:
+        window.show_error(
+            tr("Failed to save parameters to file: {}").format(save_filepath),
+            detail=str(e),
+        )
+    else:
+        window.show_information(
+            tr("Parameters saved to file: {}").format(save_filepath)
+        )
 
 
+# noinspection PyUnusedLocal
 def _on_action_load_params(window: FnExecuteWindow, action: Action):
-    pass
+    tr = trfunc()
+    load_filepath = window.select_open_file(
+        title=tr("Load Parameters"),
+        filetypes=[(tr("JSON Files"), "*.json"), (tr("All Files"), "*")],
+    )
+    if not load_filepath:
+        return
+    load_filepath = Path(load_filepath)
+    try:
+        with open(load_filepath, "r", encoding="utf-8") as f:
+            param_values = json.load(f)
+    except BaseException as e:
+        window.show_error(
+            tr("Failed to load parameters from file: {}").format(load_filepath),
+            detail=str(e),
+        )
+    else:
+        ret = window.set_parameter_values(param_values)
+        if not ret:
+            window.show_error(
+                tr("Invalid parameters in file: {}").format(load_filepath)
+            )
+        else:
+            window.show_information(
+                tr("Parameters loaded from file: {}").format(load_filepath)
+            )
 
 
 def _on_action_exit(window: FnExecuteWindow, action: Action):
@@ -39,6 +91,7 @@ def _on_action_about(window: FnExecuteWindow, action: Action):
     window.show_custom_dialog(AboutDialog, title=tr("About"))
 
 
+# noinspection PyUnusedLocal
 def _on_action_license(window: FnExecuteWindow, action: Action):
     tr = trfunc()
     try:
@@ -60,6 +113,7 @@ def _on_action_license(window: FnExecuteWindow, action: Action):
     viewer.show_modal()
 
 
+# noinspection PyUnusedLocal
 def _on_action_edit_config(window: FnExecuteWindow, action: Action):
     app_config = get_appconfig()
     tr = trfunc()
