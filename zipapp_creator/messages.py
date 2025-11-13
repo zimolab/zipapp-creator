@@ -40,27 +40,34 @@ class _Messages(object):
         self.MSG_STARTUP_SCRIPT_CREATED = tr("Startup script created: {}")
         self.MSG_CREATE_ZIPAPP_FAILURE = tr("Failed to create zipapp: {}")
 
-        self.MSG_SOURCE_DIR_REQUIRED = tr("Source directory is required!")
-        self.MSG_SOURCE_DIR_NOT_FOUND = tr("Source directory not found!")
+        self.MSG_SOURCE_DIR_REQUIRED = tr("Please specify the source directory!")
+        self.MSG_SOURCE_DIR_NOT_FOUND = tr("The source directory does not exist!")
         self.MSG_MAIN_FILE_NOT_ALLOWED = tr(
             "A __main__.py file is found in the source directory, "
             "which is not allowed when creating a self-extracting zipapp!"
         )
         self.MSG_VALID_ENTRY_FILE_REQUIRED = tr(
-            "A valid entry file is required to create a self-extracting zipapp!"
+            "Please specify a valid entry file when creating a self-extracting zipapp!"
         )
         self.MSG_ENTRY_REQUIRED = tr(
-            "An entry is required if there is no __main__.py file in the source directory!"
+            "The entry must be specified(in the form of 'pkg.module:callable' or 'pkg.module') "
+            "if there is no __main__.py file in the source directory!"
+        )
+        self.MSG_INVALID_ENTRY_FORMAT = tr(
+            "The entry should be in the form of 'pkg.module:callable' or 'pkg.module', not a file path!"
+            "Or you can just leave it empty if there is a __main__.py file in the source directory!"
         )
         self.MSG_HOST_PYTHON_REQUIRED = tr(
-            "A valid host Python host_py is required to do pip-install!"
+            "Please specify the host python interpreter which will be used for pip-install!"
         )
         self.MSG_REQUIREMENTS_FILE_NOT_FOUND = tr(
             "The requirements file not found in the source directory!"
         )
         self.MSG_SCRIPT_PYTHON_REQUIRED = tr(
-            "A python command is required to be used to start the output zipapp in the startup script!"
+            "Please specify the python command which will be used in the startup script for starting the "
+            "output zipapp."
         )
+
         self.MSG_PARAM_GROUP_MAIN = tr("Main")
         self.MSG_PARAM_GROUP_EXCLUDE = tr("Exclude")
         self.MSG_PARAM_GROUP_PACKAGING = tr("Packaging")
