@@ -145,7 +145,7 @@ class ZipAppCreator(object):
             target = target.strip() or "{SOURCE}.pyz"
             target = target.format(SOURCE=source.name)
             target = Path(dist_root_dir) / target
-            info(self._msgs.MSG_CREATING_ZIPAPP)
+            info(self._msgs.MSG_CREATING_ZIPAPP.format(target.name))
 
             if self_extract:
                 start_script = create_startup_script(dist_proj_dir, entry)
