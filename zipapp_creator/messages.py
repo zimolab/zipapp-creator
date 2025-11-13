@@ -30,10 +30,10 @@ class _Messages(object):
         self.MSG_MENU_VIEW = tr("View")
         self.MSG_MENU_HELP = tr("Help")
         self.MSG_START_PACKAGING = tr("Start packaging...")
-        self.MSG_COPY_SOURCE_FILES = tr("Copying source files to {}...")
+        self.MSG_COPY_SOURCE_FILES = tr("Start copying source files to {}...")
         self.MSG_PIP_INSTALL_FAILURE = tr("Failed to install dependencies: {}")
-        self.MSG_CREATING_ZIPAPP = tr("Creating zipapp...")
-        self.MSG_ZIPAPP_CREATED = tr("Zipapp created: {}")
+        self.MSG_CREATING_ZIPAPP = tr("Start creating zipapp file {}...")
+        self.MSG_ZIPAPP_CREATED = tr("Zipapp file created: {}")
         self.MSG_CREATING_STARTUP_SCRIPT = tr(
             "Creating startup script for Windows os..."
         )
