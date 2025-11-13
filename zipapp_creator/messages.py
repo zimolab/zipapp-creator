@@ -50,11 +50,11 @@ class _Messages(object):
             "Please specify a valid entry file when creating a self-extracting zipapp!"
         )
         self.MSG_ENTRY_REQUIRED = tr(
-            "The entry must be specified(in the form of 'pkg.module:callable' or 'pkg.module') "
+            "The entry must be specified(in the form of 'pkg.module:fn' or 'module:fn') "
             "if there is no __main__.py file in the source directory!"
         )
         self.MSG_INVALID_ENTRY_FORMAT = tr(
-            "The entry should be in the form of 'pkg.module:callable' or 'pkg.module', not a file path!"
+            "The entry should be in the form of 'pkg.module:fn' or 'module:fn', not a file path!"
             "Or you can just leave it empty if there is a __main__.py file in the source directory!"
         )
         self.MSG_HOST_PYTHON_REQUIRED = tr(
@@ -67,6 +67,11 @@ class _Messages(object):
             "Please specify the python command which will be used in the startup script for starting the "
             "output zipapp."
         )
+
+        self.MSG_START_PIP_INSTALL = tr("Installing dependencies with pip...")
+        self.MSG_PIP_INSTALL_FAILURE = tr("Failed to install dependencies: {}")
+        self.MSG_PIP_INSTALL_SUCCESS = tr("Dependencies installed successfully!")
+        self.MSG_PIP_INSTALL_CANCELLED = tr("User cancelled the pip-install process!")
 
         self.MSG_PARAM_GROUP_MAIN = tr("Main")
         self.MSG_PARAM_GROUP_EXCLUDE = tr("Exclude")
@@ -123,7 +128,7 @@ class _Messages(object):
             "point file you specified. If this argument is selected, you must specify an \n"
             "entry point file and make sure that there is no __main__.py file in the source \n"
             "directory. If this argument is not selected, you need to provide an entry point \n"
-            "in the form of 'pkg.module:callable', or just leave the entry point argument empty \n"
+            "in the form of 'pkg.module:fn' or 'module:fn', or just leave the entry point argument empty \n"
             "if there is a __main__.py file in the source directory. An self-extracting archive \n"
             "is very useful if you have c extensions in your dependencies."
         )
@@ -176,7 +181,7 @@ class _Messages(object):
         self.MSG_PARAM_DESC_ENTRY = tr(
             "This argument specifies the entry point of the zipapp. \n\n"
             "If you are creating a non-self-extracting zipapp: \n"
-            "1) the entry point should be in the form of 'pkg.module:callable' or 'pkg.module' or \n"
+            "1) the entry point should be in the form of 'pkg.module:fn' or 'module:fn' or \n"
             "2) just leave it empty if there is a __main__.py file in the source directory. \n\n"
             "If you are creating a self-extracting zipapp: \n"
             "1) the entry point should be the name of the main python file in the source directory and \n"
