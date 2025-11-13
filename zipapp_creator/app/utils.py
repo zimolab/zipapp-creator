@@ -12,12 +12,14 @@ from typing import Literal
 
 from pyguiadapterlite import uprint, is_function_cancelled
 
+from zipapp_creator.messages import messages
+
 _MSG_LABEL_INFO = "INFO".ljust(7)
 _MSG_LABEL_ERROR = "ERROR".ljust(7)
 _MSG_LABEL_WARNING = "WARNING".ljust(7)
 _MSG_LABEL_SUCCESS = "SUCCESS".ljust(7)
 
-_ENTRY_POINT_REGEX = re.compile(r"^([a-zA-Z0-9_]+)*\.[a-zA-Z0-9_]+(:[a-zA-Z0-9_]+)?$")
+_ENTRY_POINT_REGEX = re.compile(r"^([a-zA-Z0-9_]+\.)*([a-zA-Z0-9_]+)(:[a-zA-Z0-9_]+)?$")
 
 
 class CanceledByUser(RuntimeError):
@@ -91,6 +93,7 @@ def pip_install(
     target_dir: str | Path,
     index_url: str = None,
 ):
+    msgs = messages()
     cmd = [
         str(py),
         "-m",
@@ -103,7 +106,7 @@ def pip_install(
     ]
     if index_url:
         cmd.extend(["--index-url", index_url])
-    info("Installing dependencies with pip install...")
+    info(msgs.MSG_START_PIP_INSTALL)
 
     uprint()
     uprint(shlex.join(cmd))
@@ -117,12 +120,12 @@ def pip_install(
     )
     cancelled = read_process_output(process)
     if cancelled:
-        raise CanceledByUser("pip install cancelled by user!")
+        raise CanceledByUser(msgs.MSG_PIP_INSTALL_CANCELLED)
 
     if process.returncode != 0:
         raise RuntimeError(f"non-zero exit code from pip install: {process.returncode}")
 
-    success(f"pip install completed successfully!")
+    success(msgs.MSG_PIP_INSTALL_SUCCESS)
 
 
 def cleanup_dependency(target_dir: str | Path):

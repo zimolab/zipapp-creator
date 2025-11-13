@@ -4,7 +4,7 @@ from pathlib import Path
 from string import Template
 from typing import Callable
 
-from pyguiadapterlite import GUIAdapter
+from pyguiadapterlite import GUIAdapter, uprint
 from pyguiadapterlite.types import (
     dir_t,
     DirectoryValue,
@@ -159,6 +159,7 @@ class ZipAppCreator(object):
                 compressed=bool(compressed),
                 filter=self._packaging_filter(exclude_from_packaging, dist_proj_dir),
             )
+
             success(self._msgs.MSG_ZIPAPP_CREATED.format(target.as_posix()))
 
             if start_script:
