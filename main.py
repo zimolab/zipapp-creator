@@ -1,5 +1,6 @@
 import builtins
 import os
+import shutil
 from pathlib import Path
 
 from zipapp_creator.consts import APP_CONFIG_FILE, APP_DATADIR, APP_LOCALES_DIR
@@ -94,6 +95,12 @@ def _initialize_locale():
     global _app_config
     _debug(f"Initializing app locale...")
     app_locale_dir = Path(APP_LOCALES_DIR)
+
+    if _DEBUG_MODE:
+        _debug("Remove all locale files in debug mode")
+        if app_locale_dir.is_dir():
+            shutil.rmtree(app_locale_dir.as_posix(), ignore_errors=True)
+
     if not app_locale_dir.is_dir():
         _debug(f"Creating app locale directory: {app_locale_dir.as_posix()}")
         app_locale_dir.mkdir(parents=True)
