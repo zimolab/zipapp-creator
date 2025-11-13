@@ -4,7 +4,7 @@ from pathlib import Path
 from string import Template
 from typing import Callable
 
-from pyguiadapterlite import GUIAdapter, uprint
+from pyguiadapterlite import GUIAdapter
 from pyguiadapterlite.types import (
     dir_t,
     DirectoryValue,
