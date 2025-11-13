@@ -130,27 +130,27 @@ def pip_install(
 
 def cleanup_dependency(target_dir: str | Path):
     target_dir = Path(target_dir)
-
-    info(f"Cleaning up dependencies in {target_dir.as_posix()}")
+    msgs = messages()
+    info(msgs.MSG_CLEANUP_DEPENDENCIES)
 
     # 删除所有 .dist-info 目录
     for dist_info in target_dir.glob("*.dist-info"):
         if dist_info.is_dir():
             shutil.rmtree(dist_info)
-            info(f"Remove dist-info directory: {dist_info.as_posix()}")
+            info(msgs.MSG_REMOVING.format(dist_info.as_posix()))
 
     # 删除所有 __pycache__ 目录
     for pycache in target_dir.rglob("__pycache__"):
         if pycache.is_dir():
             shutil.rmtree(pycache)
-            info(f"Remove __pycache__ directory: {pycache.as_posix()}")
+            info(msgs.MSG_REMOVING.format(pycache.as_posix()))
 
     # 删除所有 .pyc 文件
     for pyc_file in target_dir.rglob("*.pyc"):
         pyc_file.unlink()
-        info(f"Remove .pyc file: {pyc_file.as_posix()}")
+        info(msgs.MSG_REMOVING.format(pyc_file.as_posix()))
 
-    success(f"Dependencies cleaned up!")
+    success(msgs.MSG_CLEANUP_DEPENDENCIES_DONE)
 
 
 def copy_source_tree(

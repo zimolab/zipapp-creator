@@ -67,6 +67,9 @@ class _Messages(object):
             "Please specify the python command which will be used in the startup script for starting the "
             "output zipapp."
         )
+        self.MSG_CLEANUP_DEPENDENCIES = tr("Cleaning up dependencies...")
+        self.MSG_REMOVING = tr("Removing: {}")
+        self.MSG_CLEANUP_DEPENDENCIES_DONE = tr("Cleanup done!")
 
         self.MSG_START_PIP_INSTALL = tr("Installing dependencies with pip...")
         self.MSG_PIP_INSTALL_FAILURE = tr("Failed to install dependencies: {}")
