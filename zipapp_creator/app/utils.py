@@ -1,4 +1,5 @@
 import os
+import re
 import shlex
 import shutil
 import signal
@@ -15,6 +16,8 @@ _MSG_LABEL_INFO = "INFO".ljust(7)
 _MSG_LABEL_ERROR = "ERROR".ljust(7)
 _MSG_LABEL_WARNING = "WARNING".ljust(7)
 _MSG_LABEL_SUCCESS = "SUCCESS".ljust(7)
+
+_ENTRY_POINT_REGEX = re.compile(r"^([a-zA-Z0-9_]+)*\.[a-zA-Z0-9_]+(:[a-zA-Z0-9_]+)?$")
 
 
 class CanceledByUser(RuntimeError):
@@ -195,3 +198,11 @@ def ignored_files(
         else:
             raise ValueError(f"invalid path_type: {path_type}")
     return ignored
+
+
+def is_valid_entry_point(entry_point: str) -> bool:
+    entry_point = entry_point.strip()
+    if not entry_point:
+        return False
+    # "pkg.module:func" or "pkg.module"
+    return _ENTRY_POINT_REGEX.match(entry_point) is not None

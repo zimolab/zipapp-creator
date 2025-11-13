@@ -26,6 +26,7 @@ from .utils import (
     cleanup_dependency,
     copy_source_tree,
     ignored_files,
+    is_valid_entry_point,
 )
 from ..appconfig import AppConfig
 from ..assets import read_asset_text
@@ -209,8 +210,14 @@ class ZipAppCreator(object):
                 if not entry or not (Path(source) / entry).is_file():
                     invalid_params["entry"] = self._msgs.MSG_VALID_ENTRY_FILE_REQUIRED
             else:
-                if not main_file.is_file():
-                    invalid_params["entry"] = self._msgs.MSG_ENTRY_REQUIRED
+                if not entry:
+                    if not main_file.is_file():
+                        invalid_params["entry"] = self._msgs.MSG_ENTRY_REQUIRED
+                else:
+                    if (Path(source) / entry).is_file():
+                        invalid_params["entry"] = self._msgs.MSG_INVALID_ENTRY_FORMAT
+                    elif not is_valid_entry_point(entry):
+                        invalid_params["entry"] = self._msgs.MSG_INVALID_ENTRY_FORMAT
 
         host_py = host_py.strip()
         if not host_py:
