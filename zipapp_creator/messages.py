@@ -38,7 +38,7 @@ class _Messages(object):
             "Creating startup script for Windows os..."
         )
         self.MSG_STARTUP_SCRIPT_CREATED = tr("Startup script created: {}")
-        self.MSG_CREATE_ZIPAPP_FAILURE = tr("Failed to create zipapp: {}")
+        self.MSG_CREATE_ZIPAPP_FAILURE = tr("Failed to create zipapp file: {}")
 
         self.MSG_SOURCE_DIR_REQUIRED = tr("Please specify the source directory!")
         self.MSG_SOURCE_DIR_NOT_FOUND = tr("The source directory does not exist!")
