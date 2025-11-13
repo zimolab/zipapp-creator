@@ -46,6 +46,135 @@ class _Messages(object):
             "A __main__.py file is found in the source directory, "
             "which is not allowed when creating a self-extracting zipapp!"
         )
+        self.MSG_VALID_ENTRY_FILE_REQUIRED = tr(
+            "A valid entry file is required to create a self-extracting zipapp!"
+        )
+        self.MSG_ENTRY_REQUIRED = tr(
+            "An entry is required if there is no __main__.py file in the source directory!"
+        )
+        self.MSG_HOST_PYTHON_REQUIRED = tr(
+            "A valid host Python host_py is required to do pip-install!"
+        )
+        self.MSG_REQUIREMENTS_FILE_NOT_FOUND = tr(
+            "The requirements file not found in the source directory!"
+        )
+        self.MSG_SCRIPT_PYTHON_REQUIRED = tr(
+            "A python command is required to be used to start the output zipapp in the startup script!"
+        )
+        self.MSG_PARAM_GROUP_MAIN = tr("Main")
+        self.MSG_PARAM_GROUP_EXCLUDE = tr("Exclude")
+        self.MSG_PARAM_GROUP_PACKAGING = tr("Packaging")
+
+        self.MSG_PARAM_SRC_DIR = tr("Source")
+        self.MSG_PARAM_TARGET = tr("Target")
+        self.MSG_PARAM_ENTRY = tr("Entry")
+        self.MSG_PARAM_SHEBANG = tr("Shebang")
+        self.MSG_PARAM_REQUIREMENTS = tr("Requirements")
+        self.MSG_PARAM_HOST_PYTHON = tr("Host Python")
+        self.MSG_PARAM_DEFLATE_COMPRESSION = tr("Deflate Compression")
+        self.MSG_PARAM_SELF_EXTRACTING = tr("Self-Extracting Mode")
+        self.MSG_PARAM_START_SCRIPT = tr("Start Script for Windows")
+        self.MSG_STRAT_SCRIPT_PYTHON = tr("Python for Start Script")
+        self.MSG_PARMA_EXCLUDE_FROM_COPY = tr("Exclude from Copy")
+        self.MSG_PARAM_EXCLUDE_FROM_PACKAGING = tr("Exclude from Packaging")
+        self.MSG_PARAM_PIP_INDEX_URL = tr("PIP Index URL")
+        self.MSG_PARMA_CLEANUP_DEPENDENCIES = tr(
+            "Cleanup dependencies after pip install"
+        )
+
+        self.MSG_PARAM_DESC_SRC_DIR = tr(
+            "The name of a directory, in which case a new application\n"
+            "archive will be created from the content of that directory."
+        )
+        self.MSG_PARAM_DESC_TARGET = tr(
+            "This argument determines where the resulting archive\n"
+            "will be written.If this argument is omitted, the target \n"
+            "will be a file with the same name as the source, with a .pyz\n"
+            "extension added."
+        )
+        self.MSG_PARAM_DESC_SHEBANG = tr(
+            "This argument specifies the name of the Python host_py \n"
+            "with which the archive will be executed. It is written as a \n"
+            "“shebang” line at the start of the archive.On POSIX, this will \n"
+            "be interpreted by the OS, and on Windows it will be handled\n"
+            "by the Python launcher. Omitting this argument results in no \n"
+            "shebang line being written. If an host_py is specified, \n"
+            "and the target is a filename, the executable bit of the target \n"
+            "file will be set."
+        )
+        self.MSG_PARAM_DESC_DEFLATE_COMPRESSION = tr(
+            "This argument determines whether files are compressed. If selected, \n"
+            "files in the archive are compressed with the deflate method; otherwise, \n"
+            "files are stored uncompressed."
+        )
+        self.MSG_PARAM_DESC_SELF_EXTRACTING = tr(
+            "This argument determines whether the resulting archive is a 'self-extracting'\n"
+            "archive. A self-extracting archive contains a auto-generated python script as \n"
+            "the actual entry point of the application. When executed, this script will be \n"
+            "executed first. This script literally does two things: first of all it extracts \n"
+            "the contents of the archive to a temporary directory, and then start the entry \n"
+            "point file you specified. If this argument is selected, you must specify an \n"
+            "entry point file and make sure that there is no __main__.py file in the source \n"
+            "directory. If this argument is not selected, you need to provide an entry point \n"
+            "in the form of 'pkg.module:callable', or just leave the entry point argument empty \n"
+            "if there is a __main__.py file in the source directory. An self-extracting archive \n"
+            "is very useful if you have c extensions in your dependencies."
+        )
+        self.MSG_PARAM_DESC_START_SCRIPT = tr(
+            "This argument determines whether a startup script will be created for Windows operating \n"
+            "system. The startup script will be a vbs file with the same name as the target archive, \n"
+            "For example, if the target archive is 'app.pyz', the startup script will be 'app.vbs'. \n"
+            "The startup script starts the output zipapp by using the python command you specified, and \n"
+            "it hides the console window which makes your zipapp look more like a native application. \n"
+            "If this argument is selected, you must specify the python command to start the output zipapp. "
+        )
+        self.MSG_PARAM_DESC_SCRIPT_PYTHON = tr(
+            "This argument specifies the python command to start the output zipapp in the startup script. \n"
+            "For example, if you want to use python 3 to start the output zipapp, you can specify 'python3'. \n"
+            "It is not recommented to specify an absolute path to the python interpreter, it may not work \n"
+            "in other machines. It is recommended to use 'python'/ 'python3'/ 'python.exe' and make sure the \n"
+            "python interpreter is in the system PATH."
+        )
+        self.MSG_PARAM_DESC_EXCLUDE_FROM_COPY = tr(
+            "Everytime you create a new application archive, the source directory is copied to the `zipapp_dist` \n"
+            "directory to keep your source directory clean and uncompromised. This argument let you exclude the \n"
+            "files and directories you don't want to be copied to the `zipapp_dist` directory. For example, you \n"
+            "probably don't want the virtual environment directory(normally named venv or .venv) being copied to the."
+            "zipapp_dist directory. \n"
+        )
+        self.MSG_PARAM_DESC_EXCLUDE_FROM_PACKAGING = tr(
+            "Sometimes some files is required for packaging, but not necessary in the runtime. For example, a \n"
+            "requirements.txt is needed for if you want to installing the dependencies during the packaging \n "
+            "process, but it is not necessary in the runtime. This argument let you specify the patterns of files \n"
+            "and directories will be excluded from the target zipapp archive."
+        )
+        self.MSG_PARAM_DESC_HOST_PYTHON = tr(
+            "This argument specifies the Python interpreter to be used for pip-install during the packaging process."
+        )
+        self.MSG_PARAM_DESC_REQUIREMENTS = tr(
+            "This argument specifies the requirements file to be used for pip-install during the packaging process. \n"
+            "The requirements file should be located in the source directory. If it is omitted, zipapp-creator will try \n"
+            "to find a default requirements file named 'requirements.txt' in the source directory. If it is not found, \n"
+            "the pip-install process will be skipped."
+        )
+        self.MSG_PARAM_DESC_PIP_INDEX_URL = tr(
+            "This argument specifies the pip index url to be used for pip-install during the packaging process. \n"
+            "If it is omitted, the pip-install process will use the default pip index url."
+        )
+        self.MSG_PARAM_DESC_CLEANUP_DEPENDENCIES = tr(
+            "This argument specifies whether to cleanup the dependencies after pip-install. If it is selected, \n"
+            "zipapp-creator will try to find and delete 'unnecessary' files and directories in the installed \n"
+            "dependencies, such as *.dist-info, __pycache__, etc., to reduce the size of the final zipapp archive."
+        )
+        self.MSG_PARAM_DESC_ENTRY = tr(
+            "This argument specifies the entry point of the zipapp. \n\n"
+            "If you are creating a non-self-extracting zipapp: \n"
+            "1) the entry point should be in the form of 'pkg.module:callable' or 'pkg.module' or \n"
+            "2) just leave it empty if there is a __main__.py file in the source directory. \n\n"
+            "If you are creating a self-extracting zipapp: \n"
+            "1) the entry point should be the name of the main python file in the source directory and \n"
+            "2) there should be no __main__.py file in the source directory. "
+        )
 
 
 _messages = None

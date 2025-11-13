@@ -92,7 +92,7 @@ class ZipAppCreator(object):
         compressed: bool_t,
         exclude_from_copy: string_list,
         exclude_from_packaging: string_list,
-        interpreter: file_t,
+        host_py: file_t,
         requirements: file_t,
         pip_index_url: str,
         cleanup_dependencies: bool_t,
@@ -125,7 +125,7 @@ class ZipAppCreator(object):
         if requirements:
             try:
                 pip_install(
-                    py=interpreter,
+                    py=host_py,
                     requirements=requirements,
                     target_dir=dist_proj_dir,
                     index_url=pip_index_url,
@@ -181,7 +181,7 @@ class ZipAppCreator(object):
         source: dir_t,
         entry: str,
         self_extract: bool_t,
-        interpreter: file_t,
+        host_py: file_t,
         requirements: file_t,
         start_script: bool_t,
         start_script_py: str,
@@ -207,35 +207,26 @@ class ZipAppCreator(object):
                         self._msgs.MSG_MAIN_FILE_NOT_ALLOWED
                     )
                 if not entry or not (Path(source) / entry).is_file():
-                    invalid_params["entry"] = tr(
-                        "Please specify a valid entry point python file in the source directory"
-                    )
+                    invalid_params["entry"] = self._msgs.MSG_VALID_ENTRY_FILE_REQUIRED
             else:
                 if not main_file.is_file():
-                    invalid_params["entry"] = tr(
-                        "Please specify the entry point if there is no default entry point file(__main__.py)"
-                        " in the source directory"
-                    )
+                    invalid_params["entry"] = self._msgs.MSG_ENTRY_REQUIRED
 
-        interpreter = interpreter.strip()
-        if not interpreter:
-            invalid_params["interpreter"] = tr(
-                "The host python interpreter is required for installing dependencies via pip!"
-            )
+        host_py = host_py.strip()
+        if not host_py:
+            invalid_params["host_py"] = self._msgs.MSG_HOST_PYTHON_REQUIRED
 
         requirements = requirements.strip()
         if source and requirements:
             requirements = Path(source) / requirements
             if not requirements.is_file():
-                invalid_params["requirements"] = tr(
-                    "The requirements file is not found in the source directory"
+                invalid_params["requirements"] = (
+                    self._msgs.MSG_REQUIREMENTS_FILE_NOT_FOUND
                 )
 
         start_script_py = start_script_py.strip()
         if start_script and not start_script_py:
-            invalid_params["start_script_py"] = tr(
-                "Please specify the Python command you want to use in the windows start script!"
-            )
+            invalid_params["start_script_py"] = self._msgs.MSG_SCRIPT_PYTHON_REQUIRED
 
         return invalid_params
 
@@ -259,77 +250,88 @@ class ZipAppCreator(object):
             window_config=winconfig.get_window_config(),
             # parameter configs below
             source=DirectoryValue(
-                label=tr("Source Directory"),
+                label=self._msgs.MSG_PARAM_SRC_DIR,
                 default_value=Path.cwd().as_posix(),
-                group=tr("Main"),
+                group=self._msgs.MSG_PARAM_GROUP_MAIN,
+                description=self._msgs.MSG_PARAM_DESC_SRC_DIR,
             ),
             target=StringValue(
-                label=tr("Target Filename"),
+                label=self._msgs.MSG_PARAM_TARGET,
                 default_value=DEFAULT_TARGET_NAME,
-                group=tr("Main"),
+                group=self._msgs.MSG_PARAM_GROUP_MAIN,
+                description=self._msgs.MSG_PARAM_DESC_TARGET,
             ),
             entry=StringValue(
-                label=tr("Entry Point"),
-                description=tr(
-                    "The entry point of the application, usually __main__.py"
-                ),
+                label=self._msgs.MSG_PARAM_ENTRY,
+                description=self._msgs.MSG_PARAM_DESC_ENTRY,
                 default_value=DEFAULT_ENTRY_POINT,
-                group=tr("Main"),
+                group=self._msgs.MSG_PARAM_GROUP_MAIN,
             ),
             shebang=StringValue(
-                label=tr("Shebang"),
+                label=self._msgs.MSG_PARAM_SHEBANG,
                 default_value=DEFAULT_SHEBANG,
-                group=tr("Main"),
+                group=self._msgs.MSG_PARAM_GROUP_MAIN,
+                description=self._msgs.MSG_PARAM_DESC_SHEBANG,
             ),
             compressed=BoolValue2(
-                label=tr("Enable deflate compression"),
+                label=self._msgs.MSG_PARAM_DEFLATE_COMPRESSION,
                 default_value=True,
-                group=tr("Main"),
+                group=self._msgs.MSG_PARAM_GROUP_MAIN,
+                description=self._msgs.MSG_PARAM_DESC_DEFLATE_COMPRESSION,
             ),
             self_extract=BoolValue2(
-                label=tr("Create self-extracting zipapp"),
+                label=self._msgs.MSG_PARAM_SELF_EXTRACTING,
                 default_value=False,
-                group=tr("Main"),
+                group=self._msgs.MSG_PARAM_GROUP_MAIN,
+                description=self._msgs.MSG_PARAM_DESC_SELF_EXTRACTING,
             ),
             start_script=BoolValue2(
-                label=tr("Create start script for Windows"),
+                label=self._msgs.MSG_PARAM_START_SCRIPT,
                 default_value=False,
-                group=tr("Main"),
+                group=self._msgs.MSG_PARAM_GROUP_MAIN,
+                description=self._msgs.MSG_PARAM_DESC_START_SCRIPT,
             ),
             start_script_py=StringValue(
-                label=tr("Python for start script"),
+                label=self._msgs.MSG_STRAT_SCRIPT_PYTHON,
                 default_value=DEFAULT_HOST_INTERPRETER,
-                group=tr("Main"),
+                group=self._msgs.MSG_PARAM_GROUP_MAIN,
+                description=self._msgs.MSG_PARAM_DESC_SCRIPT_PYTHON,
             ),
             exclude_from_copy=StringListValue(
-                label=tr("Exclude from Copy"),
+                label=self._msgs.MSG_PARMA_EXCLUDE_FROM_COPY,
                 default_value=DEFAULT_COPY_EXCLUDE_PATTERNS,
                 hide_label=True,
-                group=tr("Exclude"),
+                group=self._msgs.MSG_PARAM_GROUP_EXCLUDE,
+                description=self._msgs.MSG_PARAM_DESC_EXCLUDE_FROM_COPY,
             ),
             exclude_from_packaging=StringListValue(
-                label=tr("Exclude from Packaging"),
+                label=self._msgs.MSG_PARAM_EXCLUDE_FROM_PACKAGING,
                 default_value=DEFAULT_PACKAGING_EXCLUDE_PATTERNS,
                 hide_label=True,
-                group=tr("Exclude"),
+                group=self._msgs.MSG_PARAM_GROUP_EXCLUDE,
+                description=self._msgs.MSG_PARAM_DESC_EXCLUDE_FROM_PACKAGING,
             ),
-            interpreter=FileValue(
-                label=tr("Host Interpreter"),
+            host_py=FileValue(
+                label=self._msgs.MSG_PARAM_HOST_PYTHON,
                 default_value=DEFAULT_HOST_INTERPRETER,
-                group=tr("Packaging"),
+                group=self._msgs.MSG_PARAM_GROUP_PACKAGING,
+                description=self._msgs.MSG_PARAM_DESC_HOST_PYTHON,
             ),
             requirements=FileValue(
-                label=tr("Requirements File"),
-                group=tr("Packaging"),
+                label=self._msgs.MSG_PARAM_REQUIREMENTS,
+                group=self._msgs.MSG_PARAM_GROUP_PACKAGING,
+                description=self._msgs.MSG_PARAM_DESC_REQUIREMENTS,
             ),
             pip_index_url=StringValue(
-                label=tr("PIP Index URL"),
-                group=tr("Packaging"),
+                label=self._msgs.MSG_PARAM_PIP_INDEX_URL,
+                group=self._msgs.MSG_PARAM_GROUP_PACKAGING,
+                description=self._msgs.MSG_PARAM_DESC_PIP_INDEX_URL,
             ),
             cleanup_dependencies=BoolValue2(
-                label=tr("Cleanup dependencies after installation"),
+                label=self._msgs.MSG_PARMA_CLEANUP_DEPENDENCIES,
                 default_value=True,
-                group=tr("Packaging"),
+                group=self._msgs.MSG_PARAM_GROUP_PACKAGING,
+                description=self._msgs.MSG_PARAM_DESC_CLEANUP_DEPENDENCIES,
             ),
         )
         adapter.run()
