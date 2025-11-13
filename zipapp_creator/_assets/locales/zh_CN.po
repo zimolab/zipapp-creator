@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2025-11-14 00:24+0800\n"
-"PO-Revision-Date: 2025-11-14 00:28+0800\n"
+"PO-Revision-Date: 2025-11-14 00:38+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -25,19 +25,19 @@ msgstr "输出"
 
 #: app/winconfig.py:20
 msgid "Start"
-msgstr ""
+msgstr "开始"
 
 #: app/winconfig.py:21
 msgid "Clear Output"
-msgstr ""
+msgstr "清除输出"
 
 #: app/winconfig.py:22
 msgid "clear output before start"
-msgstr ""
+msgstr "在开始前清除输出"
 
 #: app/winconfig.py:23
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: messages.py:7 messages.py:22
 msgid "Save Parameters"
