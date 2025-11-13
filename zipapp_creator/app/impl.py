@@ -231,8 +231,6 @@ class ZipAppCreator(object):
         return invalid_params
 
     def run(self):
-        tr = trfunc()
-
         hdpi_factor = self._app_config.hdpi_factor
         if hdpi_factor <= 0:
             hdpi_factor = 100

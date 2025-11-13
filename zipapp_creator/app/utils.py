@@ -1,7 +1,10 @@
 import os
 import shlex
 import shutil
+import signal
 import subprocess
+import sys
+import threading
 import time
 from pathlib import Path
 from typing import Literal
@@ -34,24 +37,48 @@ def success(msg: str, end="\n"):
     uprint(f"\033[1m\033[32m{_MSG_LABEL_SUCCESS} {msg}\033[0m", end=end)
 
 
-def read_process_output(process: subprocess.Popen) -> bool:
-    uprint()
-    hinted = False
-    cancelled = False
-    while True:
+def terminate_process(process: subprocess.Popen):
+    if sys.platform == "win32":
+        process.terminate()
+    else:
+        os.kill(process.pid, signal.SIGTERM)
+
+    for _ in range(10):
         if process.poll() is not None:
             break
-        output = process.stdout.readline()
-        if output:
-            uprint(output, end="")
-        time.sleep(0.01)
+        time.sleep(0.1)
+    if process.poll() is None:
+        process.kill()
+
+
+def read_process_output(process: subprocess.Popen) -> bool:
+    cancelled = False
+
+    lock = threading.Lock()
+
+    def do_read():
+        nonlocal cancelled
+        uprint()
+        while process.poll() is None:
+            with lock:
+                if cancelled:
+                    break
+            line = process.stdout.readline()
+            if line:
+                uprint(line, end="")
+            time.sleep(0.01)
+        uprint()
+
+    read_thread = threading.Thread(target=do_read, daemon=True)
+    read_thread.start()
+
+    while read_thread.is_alive():
         if is_function_cancelled():
-            if not hinted:
-                uprint()
-                hinted = True
-            process.terminate()
-            cancelled = True
-    uprint()
+            terminate_process(process)
+            with lock:
+                cancelled = True
+            break
+        time.sleep(0.1)
     return cancelled
 
 
