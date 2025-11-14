@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-11-14 00:24+0800\n"
-"PO-Revision-Date: 2025-11-14 00:38+0800\n"
+"POT-Creation-Date: 2025-11-15 02:07+0800\n"
+"PO-Revision-Date: 2025-11-15 02:07+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -41,149 +41,152 @@ msgstr "取消"
 
 #: messages.py:7 messages.py:22
 msgid "Save Parameters"
-msgstr ""
+msgstr "保存参数"
 
 #: messages.py:8 messages.py:23
 msgid "Load Parameters"
-msgstr ""
+msgstr "加载参数"
 
 #: messages.py:9
 msgid "JSON Files"
-msgstr ""
+msgstr "JSON文件"
 
 #: messages.py:10
 msgid "All Files"
-msgstr ""
+msgstr "所有文件"
 
 #: messages.py:11
 #, python-brace-format
 msgid "Parameters saved to file: {}"
-msgstr ""
+msgstr "参数已保存至文件：{}"
 
 #: messages.py:12
 #, python-brace-format
 msgid "Parameters loaded from file: {}"
-msgstr ""
+msgstr "已从文件中加载参数：{}"
 
 #: messages.py:13
 #, python-brace-format
 msgid "Failed to save parameters to file: {}"
-msgstr ""
+msgstr "无法将参数保存至文件：{}"
 
 #: messages.py:14
 #, python-brace-format
 msgid "Failed to load parameters from file: {}"
-msgstr ""
+msgstr "无法从文件中加载参数：{}"
 
 #: messages.py:15
 #, python-brace-format
 msgid "Invalid parameters in file: {}"
-msgstr ""
+msgstr "文件存在无效参数值：{}"
 
 #: messages.py:16 messages.py:26
 msgid "About"
-msgstr ""
+msgstr "关于"
 
 #: messages.py:17 messages.py:27
 msgid "License"
-msgstr ""
+msgstr "许可证"
 
 #: messages.py:18
 msgid "This project is under the MIT license."
-msgstr ""
+msgstr "本项目基于MIT许可证发布。"
 
 #: messages.py:20
 msgid ""
 "Changes to the configuration file will be take effect after restarting the "
 "program!"
-msgstr ""
+msgstr "对配置文件的修改将在下次启动该程序时生效！"
 
 #: messages.py:24
 msgid "Exit"
-msgstr ""
+msgstr "退出"
 
 #: messages.py:25
 msgid "Always on Top"
-msgstr ""
+msgstr "窗口置顶"
 
 #: messages.py:28
 msgid "Edit Config"
-msgstr ""
+msgstr "编辑配置文件"
 
 #: messages.py:29
 msgid "File"
-msgstr ""
+msgstr "文件"
 
 #: messages.py:30
 msgid "View"
-msgstr ""
+msgstr "视图"
 
 #: messages.py:31
 msgid "Help"
-msgstr ""
+msgstr "帮助"
 
 #: messages.py:32
 msgid "Start packaging..."
-msgstr ""
+msgstr "开始打包..."
 
 #: messages.py:33
 #, python-brace-format
-msgid "Copying source files to {}..."
-msgstr ""
+msgid "Start copying source files to {}..."
+msgstr "正在将源文件拷贝至{}..."
 
 #: messages.py:34 messages.py:75
 #, python-brace-format
 msgid "Failed to install dependencies: {}"
-msgstr ""
+msgstr "无法安装依赖：{}"
 
 #: messages.py:35
 #, python-brace-format
-msgid "Creating zipapp archive {}..."
-msgstr ""
+msgid "Start creating zipapp file {}..."
+msgstr "正在创建zipapp文件{}..."
 
 #: messages.py:36
 #, python-brace-format
-msgid "Zipapp created: {}"
-msgstr ""
+msgid "Zipapp file created: {}"
+msgstr "zipapp文件已创建：{}"
 
 #: messages.py:38
 msgid "Creating startup script for Windows os..."
-msgstr ""
+msgstr "正在创建Windows操作系统上的启动脚本..."
 
 #: messages.py:40
 #, python-brace-format
 msgid "Startup script created: {}"
-msgstr ""
+msgstr "启动脚本已创建：{}"
 
 #: messages.py:41
 #, python-brace-format
-msgid "Failed to create zipapp: {}"
-msgstr ""
+msgid "Failed to create zipapp file: {}"
+msgstr "无法创建zipapp文件：{}"
 
 #: messages.py:43
 msgid "Please specify the source directory!"
-msgstr ""
+msgstr "请指定源目录！"
 
 #: messages.py:44
 msgid "The source directory does not exist!"
-msgstr ""
+msgstr "源目录不存在！"
 
 #: messages.py:46
 msgid ""
 "A __main__.py file is found in the source directory, which is not allowed "
 "when creating a self-extracting zipapp!"
-msgstr ""
+msgstr "在源目录下发现默认入口文件__main__.py，这在自解压模式下是不允许的！"
 
 #: messages.py:50
 msgid ""
 "Please specify a valid entry file when creating a self-extracting zipapp!"
-msgstr ""
+msgstr "要创建自解压的zipapp文件，必须指定一个有效的入口文件！"
 
 #: messages.py:53
 msgid ""
 "The entry must be specified(in the form of 'pkg.module:fn' or 'module:fn') "
 "if there is no __main__.py file in the source directory!"
 msgstr ""
+"若源目录下无默认入口文件__main__.py，则必须指定一个有效的程序入口，格式为："
+"pkg.module.fn 或 moudle.fn。\n"
+"其中pkg代表包名，moudle代表模块名，fn是主函数（入口函数）的名称！"
 
 #: messages.py:57
 msgid ""
@@ -191,121 +194,124 @@ msgid ""
 "file path!Or you can just leave it empty if there is a __main__.py file in "
 "the source directory!"
 msgstr ""
+"入口点应采用“pkg.module:fn”或“module:fn”的形式，而非文件路径！如果源目录中存"
+"在默认入口文件__main__.py 文件，您也可以直接留空！"
 
 #: messages.py:61
 msgid ""
 "Please specify the host python interpreter which will be used for pip-"
 "install!"
-msgstr ""
+msgstr "请指定用于执行pip安装的主机Python解释器！"
 
 #: messages.py:64
 msgid "The requirements file not found in the source directory!"
-msgstr ""
+msgstr "未在源目录下找到requirements文件！"
 
 #: messages.py:67
 msgid ""
 "Please specify the python command which will be used in the startup script "
 "for starting the output zipapp."
-msgstr ""
+msgstr "请指定在启动脚本中使用的python命令，该命令用于启动zipapp应用。"
 
 #: messages.py:70
 msgid "Cleaning up dependencies..."
-msgstr ""
+msgstr "正在清理依赖..."
 
 #: messages.py:71
 #, python-brace-format
 msgid "Removing: {}"
-msgstr ""
+msgstr "正在删除：{}"
 
 #: messages.py:72
 msgid "Cleanup done!"
-msgstr ""
+msgstr "已完成清理！"
 
 #: messages.py:74
 msgid "Installing dependencies with pip..."
-msgstr ""
+msgstr "正在使用pip安装依赖..."
 
 #: messages.py:76
 msgid "Dependencies installed successfully!"
-msgstr ""
+msgstr "已成功安装依赖项！"
 
 #: messages.py:77
 msgid "User cancelled the pip-install process!"
-msgstr ""
+msgstr "用户取消pip安装过程！"
 
 #: messages.py:79
 msgid "Main"
-msgstr ""
+msgstr "主参数"
 
 #: messages.py:80
 msgid "Exclude"
-msgstr ""
+msgstr "排除文件"
 
 #: messages.py:81
 msgid "Packaging"
-msgstr ""
+msgstr "打包选项"
 
 #: messages.py:83
 msgid "Source"
-msgstr ""
+msgstr "源"
 
 #: messages.py:84
 msgid "Target"
-msgstr ""
+msgstr "目标"
 
 #: messages.py:85
 msgid "Entry"
-msgstr ""
+msgstr "入口"
 
 #: messages.py:86
 msgid "Shebang"
-msgstr ""
+msgstr "shebang 行"
 
 #: messages.py:87
 msgid "Requirements"
-msgstr ""
+msgstr "requirement文件"
 
 #: messages.py:88
 msgid "Host Python"
-msgstr ""
+msgstr "主机Python解释器"
 
 #: messages.py:89
 msgid "Deflate Compression"
-msgstr ""
+msgstr "是否使用deflate方法进行压缩"
 
 #: messages.py:90
 msgid "Self-Extracting Mode"
-msgstr ""
+msgstr "是否启用自解压模式"
 
 #: messages.py:91
 msgid "Start Script for Windows"
-msgstr ""
+msgstr "是否为Windows系统创建启动脚本(VBS)"
 
 #: messages.py:92
 msgid "Python for Start Script"
-msgstr ""
+msgstr "启动脚本中使用的Python命令"
 
 #: messages.py:93
 msgid "Exclude from Copy"
-msgstr ""
+msgstr "拷贝源目录时排除以下文件"
 
 #: messages.py:94
 msgid "Exclude from Packaging"
-msgstr ""
+msgstr "在打包中排除以下文件"
 
 #: messages.py:95
 msgid "PIP Index URL"
-msgstr ""
+msgstr "pip镜像地址"
 
 #: messages.py:97
 msgid "Cleanup dependencies after pip install"
-msgstr ""
+msgstr "是否在安装依赖后清理非必要文件"
 
 #: messages.py:101
 msgid ""
 "The name of a directory, in which case a new application\n"
 "archive will be created from the content of that directory."
 msgstr ""
+"该参数用于指定源目录路径。该目录中的内容将被打包进目标zipapp压缩文件中。"
 
 #: messages.py:105
 msgid ""
@@ -314,18 +320,27 @@ msgid ""
 "will be a file with the same name as the source, with a .pyz\n"
 "extension added."
 msgstr ""
+"该参数决定目标zipapp文件名称。若未指定该参数，则目标zipapp将\n"
+"与源目录同名，并具有 .pyz 扩展名，比如源目录名为myapp，则缺省\n"
+"情况下目标zipapp名为myapp.pyz。"
 
 #: messages.py:111
 msgid ""
-"This argument specifies the name of the Python host_py \n"
+"This argument specifies the name of python interpreter \n"
 "with which the archive will be executed. It is written as a \n"
 "“shebang” line at the start of the archive.On POSIX, this will \n"
 "be interpreted by the OS, and on Windows it will be handled\n"
 "by the Python launcher. Omitting this argument results in no \n"
-"shebang line being written. If an host_py is specified, \n"
+"shebang line being written. If an shebang is specified, \n"
 "and the target is a filename, the executable bit of the target \n"
 "file will be set."
 msgstr ""
+"该参数指定了 Python 解释器程序名，用于执行打包文件。\n"
+"这将以 “释伴（shebang）”行的形式写入打包文件的头部。\n"
+"在 POSIX 平台上，操作系统会进行解释，而在 Windows 平台\n"
+"则会由 Python 启动器进行处理。省略 interpreter 参数则不会\n"
+"写入释伴行。如果指定了解释器，且目标为文件名，则会设置目标\n"
+"文件的可执行属性位。"
 
 #: messages.py:121
 msgid ""
@@ -333,6 +348,8 @@ msgid ""
 "files in the archive are compressed with the deflate method; otherwise, \n"
 "files are stored uncompressed."
 msgstr ""
+"该参数指定是否要压缩打包文件。若选中该选项，则打包中的文件将用 deflate 方法\n"
+"进行压缩；否则就不会压缩。"
 
 #: messages.py:126
 msgid ""
@@ -358,6 +375,17 @@ msgid ""
 "archive \n"
 "is very useful if you have c extensions in your dependencies."
 msgstr ""
+"该参数用于决定最终生成的zipapp文件是否为“自解压”文件。自解压文件内含一个自动"
+"生成\n"
+"的Python脚本作为应用程序的实际入口点。运行时，该脚本将首先被执行，其主要执行"
+"两项操作：\n"
+"首先将zipapp内容提取至临时目录，随后启动您指定的入口点文件。若启用该参数，则"
+"必须指定\n"
+"入口点文件，并确保源目录中不存在默认入口点文件__main__.py 。若不启用此参数，"
+"则需要以\n"
+"“pkg.module:fn”或“module:fn”格式指定程序的入口点，若源目录中存在 __main__.py "
+"文件，\n"
+"也可将入口点参数留空。当项目依赖中包含C扩展时，自解压的zipapp将尤为实用。"
 
 #: messages.py:139
 msgid ""
@@ -374,6 +402,13 @@ msgid ""
 "If this argument is selected, you must specify the python command to start "
 "the output zipapp. "
 msgstr ""
+"该参数用于决定是否为Windows操作系统创建启动脚本。该启动脚本将是一个与目标"
+"zipapp文件同名的\n"
+"vbs文件，例如，若目标文件为“app.pyz”，则启动脚本将为“app.vbs”。该脚本通过调用"
+"您指定的python命令\n"
+"来启动目标文件，并隐藏控制台窗口，使您的zipapp更接近原生应用程序。若选择启用"
+"此参数，则必须指定用于\n"
+"启动目标zipapp的python命令。"
 
 #: messages.py:147
 msgid ""
@@ -387,6 +422,12 @@ msgid ""
 "'python.exe' and make sure the \n"
 "python interpreter is in the system PATH."
 msgstr ""
+"该参数用于指定在启动脚本中运行目标zipapp的python命令。例如，若需使用python3启"
+"动目标zipapp，\n"
+"可将该参数指定“python3”。不建议将该参数指定为一个python解释器的绝对路径，这样"
+"可能在其他计算机上\n"
+"可能无法正常运行。推荐使用“python”/“python3”/“python.exe”等通用命令，并确保它"
+"们位于系统PATH环境变量中。"
 
 #: messages.py:154
 msgid ""
@@ -397,8 +438,13 @@ msgid ""
 "files and directories you don't want to be copied to the `zipapp_dist` "
 "directory. For example, you \n"
 "probably don't want the virtual environment directory(normally named venv "
-"or .venv) being copied to the.zipapp_dist directory. \n"
+"or .venv) being copied to the.zipapp_dist directory. "
 msgstr ""
+"每次打包zipapp文件时，都会将源目录复制到 zipapp_dist 目录下，以保持源目录的整"
+"洁与原始状态。\n"
+"此参数允许您排除不希望复制到 zipapp_dist 目录的文件和目录。例如，您可能不希望"
+"将虚拟环境目录\n"
+"（通常命名为 venv 或 .venv）复制到 zipapp_dist 目录中。"
 
 #: messages.py:161
 msgid ""
@@ -410,12 +456,17 @@ msgid ""
 "specify the patterns of files \n"
 "and directories will be excluded from the target zipapp archive."
 msgstr ""
+"某些情况下，打包过程中需要的文件在运行时并非必需。例如，若需在打包过程中安装"
+"依赖项，则需使用\n"
+"requirements.txt文件，但该文件在程序运行时并不需要。此参数可用于指定需要从目"
+"标zipapp文件中排除\n"
+"的文件及目录。"
 
 #: messages.py:167
 msgid ""
 "This argument specifies the Python interpreter to be used for pip-install "
 "during the packaging process."
-msgstr ""
+msgstr "该参数用于指定在打包过程中执行pip安装时所使用的Python解释器。"
 
 #: messages.py:170
 msgid ""
@@ -427,6 +478,10 @@ msgid ""
 "directory. If it is not found, \n"
 "the pip-install process will be skipped."
 msgstr ""
+"该参数用于指定在打包过程中执行pip安装时所使用的依赖文件。该依赖文件应放置于源"
+"目录内。若未指定本参数，\n"
+"zipapp-creator将尝试在源目录中查找名为\"requirements.txt\"的默认依赖文件。若"
+"未找到该文件，则将跳过pip安装流程。"
 
 #: messages.py:176
 msgid ""
@@ -434,6 +489,8 @@ msgid ""
 "the packaging process. \n"
 "If it is omitted, the pip-install process will use the default pip index url."
 msgstr ""
+"该参数用于指定在打包过程中执行pip安装时使用的pip索引站点地址。若未指定，将采"
+"用默认的pip索引站点。"
 
 #: messages.py:180
 msgid ""
@@ -444,6 +501,11 @@ msgid ""
 "dependencies, such as *.dist-info, __pycache__, etc., to reduce the size of "
 "the final zipapp archive."
 msgstr ""
+"该参数用于指定在pip安装依赖完成后是否清理依赖项。若选择启用该参数，zipapp-"
+"creator将尝试\n"
+"查找并删除已安装依赖中的“非必要”文件及目录（如 *.dist-info、__pycache__ "
+"等），以减小目标\n"
+"zipapp文件的体积。"
 
 #: messages.py:185
 msgid ""
@@ -460,3 +522,11 @@ msgid ""
 "directory and \n"
 "2) there should be no __main__.py file in the source directory. "
 msgstr ""
+"此参数用于指定zipapp的入口点。\n"
+"1、若创建非自解压zipapp：\n"
+"1）入口点应采用'pkg.module:fn'或'module:fn'格式，或\n"
+"2）若源目录中存在__main__.py文件，可直接留空。\n"
+"\n"
+"2、若创建自解压zipapp：\n"
+"1）入口点应为源目录中程序入口文件的名称\n"
+"2）且源目录中不得存在__main__.py文件。"
