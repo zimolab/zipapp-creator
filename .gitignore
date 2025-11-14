@@ -19,3 +19,4 @@ pyguiadapterlite/locales/*.mo
 examples/locales/
 tmp/
 zipapp_dist/
+zipapp_creator/_assets/locales/*.mo
