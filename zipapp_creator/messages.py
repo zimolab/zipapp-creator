@@ -108,12 +108,12 @@ class _Messages(object):
             "extension added."
         )
         self.MSG_PARAM_DESC_SHEBANG = tr(
-            "This argument specifies the name of the Python host_py \n"
+            "This argument specifies the name of python interpreter \n"
             "with which the archive will be executed. It is written as a \n"
             "“shebang” line at the start of the archive.On POSIX, this will \n"
             "be interpreted by the OS, and on Windows it will be handled\n"
             "by the Python launcher. Omitting this argument results in no \n"
-            "shebang line being written. If an host_py is specified, \n"
+            "shebang line being written. If an shebang is specified, \n"
             "and the target is a filename, the executable bit of the target \n"
             "file will be set."
         )
@@ -155,7 +155,7 @@ class _Messages(object):
             "directory to keep your source directory clean and uncompromised. This argument let you exclude the \n"
             "files and directories you don't want to be copied to the `zipapp_dist` directory. For example, you \n"
             "probably don't want the virtual environment directory(normally named venv or .venv) being copied to the."
-            "zipapp_dist directory. \n"
+            "zipapp_dist directory. "
         )
         self.MSG_PARAM_DESC_EXCLUDE_FROM_PACKAGING = tr(
             "Sometimes some files is required for packaging, but not necessary in the runtime. For example, a \n"
