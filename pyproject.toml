@@ -17,7 +17,7 @@ black = "^25.9.0"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[[tool.poetry.source]]
-name = "tsinghua"
-url = "http://mirrors.aliyun.com/pypi/simple/"
-priority = "primary"
+#[[tool.poetry.source]]
+#name = "tsinghua"
+#url = "http://mirrors.aliyun.com/pypi/simple/"
+#priority = "primary"
