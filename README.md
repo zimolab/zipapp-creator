@@ -5,6 +5,10 @@ The output zipapp can be self-extracting, which allows you package c-extensions
 within it.
 
 
+
+<img src="./screenshoot/zipapp-creator.png"/>
+
+
 ## Features
 
 - A simple yet easy-to-use GUI
