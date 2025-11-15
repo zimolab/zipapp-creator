@@ -20,7 +20,7 @@ APP_CONFIG_FILE = APP_DATADIR / "config.json"
 
 DEFAULT_TARGET_NAME = "{SOURCE}.pyz"
 DEFAULT_ENTRY_POINT = "main:main"
-DEFAULT_SHEBANG = "#!/usr/bin/env python3"
+DEFAULT_SHEBANG = "/usr/bin/env python3"
 DEFAULT_HOST_INTERPRETER = "python3"
 DEFAULT_COPY_EXCLUDE_PATTERNS = [
     "venv",

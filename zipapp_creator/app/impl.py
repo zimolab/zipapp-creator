@@ -257,7 +257,7 @@ class ZipAppCreator(object):
             # parameter configs below
             source=DirectoryValue(
                 label=self._msgs.MSG_PARAM_SRC_DIR,
-                default_value=Path.cwd().as_posix(),
+                default_value="",
                 group=self._msgs.MSG_PARAM_GROUP_MAIN,
                 description=self._msgs.MSG_PARAM_DESC_SRC_DIR,
             ),
