@@ -25,14 +25,14 @@ setattr(builtins, "_zipapp_creator_debug_", _debug)
 setattr(builtins, "_zipapp_creator_error_", _error)
 
 
-def _load_app_config():
-    from zipapp_creator.appconfig import AppConfig
+def _load_appsettings():
+    from zipapp_creator.appsettings import AppSettings
 
     _debug(f"Loading app config from: {APP_CONFIG_FILE}")
     app_config_path = Path(APP_CONFIG_FILE)
     if not app_config_path.is_file():
         _debug(f"App config file not found")
-        app_config = AppConfig.default()
+        app_config = AppSettings.default()
         _debug(f"Creating new app config file: {app_config_path.as_posix()}")
         app_config_path.parent.mkdir(parents=True, exist_ok=True)
         app_config.save(
@@ -40,13 +40,13 @@ def _load_app_config():
         )
         return app_config
     try:
-        app_config = AppConfig.load(app_config_path.as_posix())
+        app_config = AppSettings.load(app_config_path.as_posix())
         return app_config
     except Exception as e:
         _error(
             f"Failed to load app config from file: {app_config_path.as_posix()}: {e}"
         )
-        app_config = AppConfig.default()
+        app_config = AppSettings.default()
         app_config.save(
             app_config_path.as_posix(), encoding="utf-8", ensure_ascii=False, indent=2
         )
@@ -54,25 +54,23 @@ def _load_app_config():
 
 
 # Load app config
-_app_config = _load_app_config()
-# add app_config to builtins, so it can be accessed from anywhere
-setattr(builtins, "_zipapp_creator_app_config_", _app_config)
+_appsettings = _load_appsettings()
+# add appsettings to builtins, so it can be accessed from anywhere
+setattr(builtins, "_zipapp_creator_appsettings_", _appsettings)
 
 
-def _setup_env():
-    global _app_config
-    # Set environment variables
-    _debug(f"Setting environment variables...")
-    # MAKE SURE SETTING ENVIRONMENT VARIABLES BEFORE IMPORTING PYGUIADAPTERLITE AND ANY SUB PACKAGES OR MODULES OF IT
-    # OTHERWISE I18N WON'T WORK PROPERLY
-    os.environ["PYGUIADAPTERLITE_LOGGING_MESSAGE"] = "0"
-    os.environ["PYGUIADAPTERLITE_LOCALE"] = _app_config.locale
+def _pyguiadapter_init():
     import pyguiadapterlite
 
+    global _appsettings
+    _debug(f"Initializing PyGUIAdapterLite...")
+
+    pyguiadapterlite.set_logging_enabled(False)
+    pyguiadapterlite.set_locale_code(_appsettings.locale)
     pyguiadapterlite.set_default_parameter_label_justify("left")
 
 
-_setup_env()
+_pyguiadapter_init()
 
 
 def _check_dirs():
@@ -92,7 +90,7 @@ _check_dirs()
 
 
 def _initialize_locale():
-    global _app_config
+    global _appsettings
     _debug(f"Initializing app locale...")
     app_locale_dir = Path(APP_LOCALES_DIR)
 
@@ -113,8 +111,8 @@ def _initialize_locale():
 
         assets.export_builtin_locales(app_locale_dir.as_posix(), overwrite=True)
 
-    _debug(f"Setting app locale: {_app_config.locale}")
-    _app_config.setup_i18n(app_locale_dir.as_posix())
+    _debug(f"Setting app locale: {_appsettings.locale}")
+    _appsettings.setup_i18n(app_locale_dir.as_posix())
 
 
 _initialize_locale()
@@ -124,7 +122,7 @@ def main():
     from zipapp_creator.app import ZipAppCreator
 
     _debug("Starting ZipAppCreator")
-    creator = ZipAppCreator(app_config=_app_config)
+    creator = ZipAppCreator(appsettings=_appsettings)
     creator.run()
 
 

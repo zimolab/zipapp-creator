@@ -8,7 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.12"
 platformdirs = "^4.5.0"
-pyguiadapterlite = ">=0.6.11"
+pyguiadapterlite = ">=0.7.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^25.9.0"

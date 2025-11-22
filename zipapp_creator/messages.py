@@ -25,7 +25,7 @@ class _Messages(object):
         self.MSG_ACTION_ALWAYS_ON_TOP = tr("Always on Top")
         self.MSG_ACTION_ABOUT = tr("About")
         self.MSG_ACTION_LICENSE = tr("License")
-        self.MSG_ACTION_EDIT_CONFIG = tr("Edit Config")
+        self.MSG_ACTION_SETTINGS = tr("Settings")
         self.MSG_MENU_FILE = tr("File")
         self.MSG_MENU_VIEW = tr("View")
         self.MSG_MENU_HELP = tr("Help")
@@ -190,6 +190,9 @@ class _Messages(object):
             "1) the entry point should be the name of the main python file in the source directory and \n"
             "2) there should be no __main__.py file in the source directory. "
         )
+
+        self.MSG_CONFIRM_EXIT = tr("Are you sure you want to exit?")
+        self.MSG_CONFIRM_EXIT_TITLE = tr("Confirm Exit")
 
 
 _messages = None

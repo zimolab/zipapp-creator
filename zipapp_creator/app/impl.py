@@ -4,7 +4,7 @@ from pathlib import Path
 from string import Template
 from typing import Callable
 
-from pyguiadapterlite import GUIAdapter
+from pyguiadapterlite import GUIAdapter, FnExecuteWindowConfig, FnExecuteWindow
 from pyguiadapterlite.types import (
     dir_t,
     DirectoryValue,
@@ -17,7 +17,6 @@ from pyguiadapterlite.types import (
     StringListValue,
 )
 
-from . import winconfig, winmenu
 from .utils import (
     info,
     error,
@@ -28,7 +27,7 @@ from .utils import (
     ignored_files,
     is_valid_entry_point,
 )
-from ..appconfig import AppConfig
+from ..appsettings import AppSettings
 from ..assets import read_asset_text
 from ..common import trfunc
 from ..consts import (
@@ -40,6 +39,8 @@ from ..consts import (
     DEFAULT_PACKAGING_EXCLUDE_PATTERNS,
     DEFAULT_ENTRY_POINT,
     START_SCRIPT_TEMPLATE,
+    APP_NAME,
+    APP_VERSION,
 )
 from ..messages import messages
 from ..selfextracting import create_startup_script
@@ -51,8 +52,8 @@ class CanceledByUser(RuntimeError):
 
 class ZipAppCreator(object):
 
-    def __init__(self, app_config: AppConfig):
-        self._app_config = app_config
+    def __init__(self, appsettings):
+        self._appsettings: AppSettings = appsettings
         self._startup_script_template = Template(read_asset_text(START_SCRIPT_TEMPLATE))
         self._msgs = messages()
 
@@ -238,22 +239,52 @@ class ZipAppCreator(object):
 
         return invalid_params
 
-    def run(self):
-        hdpi_factor = self._app_config.hdpi_factor
-        if hdpi_factor <= 0:
-            hdpi_factor = 100
-        adapter = GUIAdapter(
-            hdpi_mode=self._app_config.hdpi_mode, scale_factor_divisor=hdpi_factor
+    def _window_config(self) -> FnExecuteWindowConfig:
+        tr = trfunc()
+        return FnExecuteWindowConfig(
+            title=APP_NAME.replace("-", " ").title() + f" - V{APP_VERSION}",
+            print_function_result=False,
+            show_function_result=False,
+            document_tab_title=tr("Description"),
+            output_tab_title=tr("Output"),
+            execute_button_text=tr("Start"),
+            clear_button_text=tr("Clear Output"),
+            clear_checkbox_text=tr("clear output before start"),
+            cancel_button_text=tr("Cancel"),
+            after_window_create_callback=self.after_window_create,
+            before_window_close_callback=self.before_window_close,
         )
+
+    def after_window_create(self, window: FnExecuteWindow):
+        window.set_always_on_top(self._appsettings.always_on_top)
+
+    # noinspection PyUnusedLocal
+    def before_window_close(self, window: FnExecuteWindow) -> bool:
+        if self._appsettings.confirm_exit:
+            if not window.ask_yes_no(
+                message=self._msgs.MSG_CONFIRM_EXIT,
+                title=self._msgs.MSG_CONFIRM_EXIT_TITLE,
+                parent=window.parent,
+            ):
+                return False
+        self._appsettings.save()
+        return True
+
+    def run(self):
+        from . import menus
+
+        window_menus = menus.WindowMenus()
+
+        adapter = GUIAdapter(dpi_aware=self._appsettings.hdpi_mode)
         adapter.add(
             self._on_run,
             cancelable=True,
             # parameter validator
             parameters_validator=self._parameter_validator,
             # menus
-            window_menus=winmenu.create_menus(),
+            window_menus=window_menus.create(),
             # window config
-            window_config=winconfig.get_window_config(),
+            window_config=self._window_config(),
             # parameter configs below
             source=DirectoryValue(
                 label=self._msgs.MSG_PARAM_SRC_DIR,
