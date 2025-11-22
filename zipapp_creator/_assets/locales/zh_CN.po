@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-11-15 02:07+0800\n"
-"PO-Revision-Date: 2025-11-15 02:07+0800\n"
+"POT-Creation-Date: 2025-11-22 23:58+0800\n"
+"PO-Revision-Date: 2025-11-22 23:59+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -14,30 +14,6 @@ msgstr ""
 "X-Poedit-KeywordsList: tr\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: _assets\n"
-
-#: app/winconfig.py:18
-msgid "Description"
-msgstr "描述"
-
-#: app/winconfig.py:19
-msgid "Output"
-msgstr "输出"
-
-#: app/winconfig.py:20
-msgid "Start"
-msgstr "开始"
-
-#: app/winconfig.py:21
-msgid "Clear Output"
-msgstr "清除输出"
-
-#: app/winconfig.py:22
-msgid "clear output before start"
-msgstr "在开始前清除输出"
-
-#: app/winconfig.py:23
-msgid "Cancel"
-msgstr "取消"
 
 #: messages.py:7 messages.py:22
 msgid "Save Parameters"
@@ -107,8 +83,8 @@ msgid "Always on Top"
 msgstr "窗口置顶"
 
 #: messages.py:28
-msgid "Edit Config"
-msgstr "编辑配置文件"
+msgid "Settings"
+msgstr "设置"
 
 #: messages.py:29
 msgid "File"
@@ -530,3 +506,49 @@ msgstr ""
 "2、若创建自解压zipapp：\n"
 "1）入口点应为源目录中程序入口文件的名称\n"
 "2）且源目录中不得存在__main__.py文件。"
+
+#: messages.py:194
+msgid "Are you sure you want to exit?"
+msgstr "是否退出？"
+
+#: messages.py:195 messages.py:205
+msgid "Confirm Exit"
+msgstr "退出前确认"
+
+#: messages.py:197
+msgid "Description"
+msgstr "描述"
+
+#: messages.py:198
+msgid "Output"
+msgstr "输出"
+
+#: messages.py:199
+msgid "Start"
+msgstr "开始"
+
+#: messages.py:200
+msgid "Cancel"
+msgstr "取消"
+
+#: messages.py:201
+msgid "Clear"
+msgstr "清除输出"
+
+#: messages.py:202
+msgid "clear output before start"
+msgstr "在开始前清除输出"
+
+#: messages.py:204
+msgid "Language"
+msgstr "语言"
+
+#: messages.py:206
+msgid "High DPI Mode"
+msgstr "高DPI模式"
+
+#~ msgid "Clear Output"
+#~ msgstr "清除输出"
+
+#~ msgid "Edit Config"
+#~ msgstr "编辑配置文件"

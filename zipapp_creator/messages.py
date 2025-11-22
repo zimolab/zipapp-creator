@@ -194,6 +194,17 @@ class _Messages(object):
         self.MSG_CONFIRM_EXIT = tr("Are you sure you want to exit?")
         self.MSG_CONFIRM_EXIT_TITLE = tr("Confirm Exit")
 
+        self.MSG_DOCUMENT_TAB_TITLE = tr("Description")
+        self.MSG_OUTPUT_TAB_TITLE = tr("Output")
+        self.MSG_START_BTN_TEXT = tr("Start")
+        self.MSG_CANCEL_BTN_TEXT = tr("Cancel")
+        self.MSG_CLEAR_BTN_TEXT = tr("Clear")
+        self.MSG_CLEAR_CHECKBOX_TEXT = tr("clear output before start")
+
+        self.MSG_LANGUAGE_FIELD = tr("Language")
+        self.MSG_CONFIRM_EXIT_FIELD = tr("Confirm Exit")
+        self.MSG_HDPI_MODE_FIELD = tr("High DPI Mode")
+
 
 _messages = None
 

@@ -240,17 +240,16 @@ class ZipAppCreator(object):
         return invalid_params
 
     def _window_config(self) -> FnExecuteWindowConfig:
-        tr = trfunc()
         return FnExecuteWindowConfig(
             title=APP_NAME.replace("-", " ").title() + f" - V{APP_VERSION}",
             print_function_result=False,
             show_function_result=False,
-            document_tab_title=tr("Description"),
-            output_tab_title=tr("Output"),
-            execute_button_text=tr("Start"),
-            clear_button_text=tr("Clear Output"),
-            clear_checkbox_text=tr("clear output before start"),
-            cancel_button_text=tr("Cancel"),
+            document_tab_title=self._msgs.MSG_DOCUMENT_TAB_TITLE,
+            output_tab_title=self._msgs.MSG_OUTPUT_TAB_TITLE,
+            execute_button_text=self._msgs.MSG_START_BTN_TEXT,
+            cancel_button_text=self._msgs.MSG_CANCEL_BTN_TEXT,
+            clear_button_text=self._msgs.MSG_CLEAR_BTN_TEXT,
+            clear_checkbox_text=self._msgs.MSG_CLEAR_CHECKBOX_TEXT,
             after_window_create_callback=self.after_window_create,
             before_window_close_callback=self.before_window_close,
         )
