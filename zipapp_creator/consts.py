@@ -15,7 +15,7 @@ APP_REPO = "https://github.com/zimolab/zipapp-creator"
 
 APP_DATADIR = Path(platformdirs.user_data_dir(APP_NAME, ensure_exists=True))
 APP_LOCALES_DIR = APP_DATADIR / "locales"
-APP_CONFIG_FILE = APP_DATADIR / "config.json"
+APP_SETTINGS_FILE = APP_DATADIR / "config.json"
 
 
 DEFAULT_TARGET_NAME = "{SOURCE}.pyz"

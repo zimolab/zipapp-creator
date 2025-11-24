@@ -1,23 +1,27 @@
-import builtins
 from typing import Optional
 
 from pyguiadapterlite import JsonSettingsBase
 from pyguiadapterlite.types import LooseChoiceValue, BoolValue2
 
-from zipapp_creator.i18n import ZipappCreatorI18N
+from zipapp_creator.messages import messages
 
 
 class AppSettings(JsonSettingsBase):
+    _msgs = messages()
+
     locale = LooseChoiceValue(
-        label="Language", choices=["auto", "en_US", "zh_CN"], default_value="auto"
+        label=_msgs.MSG_LANGUAGE_FIELD,
+        choices=["auto", "en_US", "zh_CN"],
+        default_value="auto",
     )
-    always_on_top = BoolValue2(label="Always on Top", default_value=False)
-    hdpi_mode = BoolValue2(label="High DPI Mode(Windows Only)", default_value=False)
-    confirm_exit = BoolValue2(label="Exit Confirmation", default_value=False)
+    always_on_top = BoolValue2(
+        label=_msgs.MSG_ACTION_ALWAYS_ON_TOP, default_value=False
+    )
+    hdpi_mode = BoolValue2(label=_msgs.MSG_HDPI_MODE_FIELD, default_value=False)
+    confirm_exit = BoolValue2(label=_msgs.MSG_CONFIRM_EXIT_FIELD, default_value=False)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self._i18n = None
         self._filepath = None
 
     def set_filepath(self, file_path: str):
@@ -59,29 +63,6 @@ class AppSettings(JsonSettingsBase):
         assert isinstance(settings, AppSettings)
         settings.set_filepath(file_path)
         return settings
-
-    def setup_i18n(self, locale_dir):
-        self._i18n = ZipappCreatorI18N(localedir=locale_dir, locale_code=self.locale)
-        # 把当前_i18n的翻译函数注入到全局空间
-        # 之后，可以使用common.trfunc()/common.ntrfunc()来获取到下面两个翻译函数
-        setattr(builtins, "__tr__", self.gettext)
-        setattr(builtins, "__ntr__", self.ngettext)
-
-    def gettext(self, string_id: str) -> str:
-        if self._i18n is None:
-            return string_id
-        return self._i18n.gettext(string_id)
-
-    def ngettext(self, singular: str, plural: str, n: int) -> str:
-        if self._i18n is None:
-            return singular if n == 1 else plural
-        return self._i18n.ngettext(singular, plural, n)
-
-    def tr(self, string_id: str) -> str:
-        return self.gettext(string_id)
-
-    def ntr(self, singular: str, plural: str, n: int) -> str:
-        return self.ngettext(singular, plural, n)
 
     @classmethod
     def default(cls) -> "AppSettings":
