@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 from typing import List
 
+from black.linegen import partial
 from pyguiadapterlite import Menu, Action, FnExecuteWindow, Separator
 from pyguiadapterlite.components.textview import SimpleTextViewer
 from pyguiadapterlite.windows.settingswindow import SettingsWindow
@@ -54,6 +55,16 @@ class WindowMenus(object):
         viewer.set_text(text)
         viewer.show_modal()
 
+    def _after_settings_window_confirmed(
+        self, window: FnExecuteWindow, appsettings: AppSettings
+    ):
+        try:
+            appsettings.save()
+        except BaseException as e:
+            window.show_error(self._msgs.MSG_SAVE_SETTINGS_ERROR, detail=str(e))
+        else:
+            window.show_information(self._msgs.MSG_SETTINGS_SAVED)
+
     # noinspection PyUnusedLocal
     def show_settings_window(self, window: FnExecuteWindow, action: Action):
         window.show_sub_window(
@@ -62,6 +73,7 @@ class WindowMenus(object):
             modal=True,
             settings=self._appsettings,
             setting_fields=self._visible_fields,
+            after_save_callback=partial(self._after_settings_window_confirmed, window),
         )
         self._appsettings.save()
 

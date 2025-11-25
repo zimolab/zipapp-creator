@@ -246,6 +246,11 @@ class _Messages(object):
         self.MSG_CONFIRM_EXIT_FIELD = tr("Confirm Exit")
         self.MSG_HDPI_MODE_FIELD = tr("High DPI Mode")
 
+        self.MSG_SETTINGS_SAVED = tr(
+            "Application settings has been saved! Some changes may require a restart of the program."
+        )
+        self.MSG_SAVE_SETTINGS_ERROR = tr("Failed to save application settings!")
+
 
 _messages = None
 
