@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 from typing import List
 
-from black.linegen import partial
+from functools import partial
 from pyguiadapterlite import Menu, Action, FnExecuteWindow, Separator
 from pyguiadapterlite.components.textview import SimpleTextViewer
 from pyguiadapterlite.windows.settingswindow import SettingsWindow
@@ -140,7 +140,7 @@ class WindowMenus(object):
                     self._msgs.MSG_LOAD_PARAMS_SUCCESS.format(load_filepath)
                 )
 
-    # noinspection PyUnusedLocal
+    # noinspection PyUnusedLocal,PyMethodMayBeStatic
     def request_exit(self, window: FnExecuteWindow, action: Action):
         window.close()
 
