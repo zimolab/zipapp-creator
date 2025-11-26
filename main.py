@@ -2,7 +2,16 @@ import builtins
 import json
 from pathlib import Path
 
-from zipapp_creator.consts import APP_SETTINGS_FILE, APP_DATADIR, APP_LOCALES_DIR
+from zipapp_creator.consts import (
+    APP_SETTINGS_FILE,
+    APP_DATADIR,
+    APP_LOCALES_DIR,
+    GLOBAL_VARNAME_DEBUG_FUNC,
+    GLOBAL_VARNAME_ERROR_FUNC,
+    GLOBAL_VARNAME_TR_FUNC,
+    GLOBAL_VARNAME_NTR_FUNC,
+    GLOBAL_VARNAME_APPSETTINGS,
+)
 
 _DEBUG_MODE = True
 
@@ -20,8 +29,8 @@ def _error(msg):
 
 
 # Add debug functions to builtins, so they can be accessed from anywhere
-setattr(builtins, "_zipapp_creator_debug_", _debug)
-setattr(builtins, "_zipapp_creator_error_", _error)
+setattr(builtins, GLOBAL_VARNAME_DEBUG_FUNC, _debug)
+setattr(builtins, GLOBAL_VARNAME_ERROR_FUNC, _error)
 
 
 def _setup_app_locale():
@@ -75,8 +84,8 @@ def _setup_app_locale():
 
     # 把当前i18n的翻译函数注入到全局空间
     # 之后，可以使用common.trfunc()/common.ntrfunc()来获取到下面两个翻译函数
-    setattr(builtins, "__tr__", gettext)
-    setattr(builtins, "__ntr__", ngettext)
+    setattr(builtins, GLOBAL_VARNAME_TR_FUNC, gettext)
+    setattr(builtins, GLOBAL_VARNAME_NTR_FUNC, ngettext)
 
 
 _setup_app_locale()
@@ -90,11 +99,9 @@ def _load_appsettings():
     if not appsettings_path.is_file():
         _debug(f"App settings file not found")
         appsettings = AppSettings.default()
-        _debug(f"Creating new app config file: {appsettings_path.as_posix()}")
+        _debug(f"Creating new app settings file: {appsettings_path.as_posix()}")
         appsettings_path.parent.mkdir(parents=True, exist_ok=True)
-        appsettings.save(
-            appsettings_path.as_posix(), encoding="utf-8", ensure_ascii=False, indent=2
-        )
+        appsettings.save(appsettings_path.as_posix())
         return appsettings
 
     try:
@@ -105,9 +112,7 @@ def _load_appsettings():
             f"Failed to load app settings from file: {appsettings_path.as_posix()}: {e}"
         )
         appsettings = AppSettings.default()
-        appsettings.save(
-            appsettings_path.as_posix(), encoding="utf-8", ensure_ascii=False, indent=2
-        )
+        appsettings.save(appsettings_path.as_posix())
         return appsettings
 
 
@@ -115,7 +120,7 @@ def _load_appsettings():
 _appsettings = _load_appsettings()
 # add appsettings to builtins namespace,
 # so that it can be accessed from anywhere
-setattr(builtins, "_zipapp_creator_appsettings_", _appsettings)
+setattr(builtins, GLOBAL_VARNAME_APPSETTINGS, _appsettings)
 
 
 def _pyguiadapter_init():

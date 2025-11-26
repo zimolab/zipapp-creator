@@ -75,7 +75,6 @@ class WindowMenus(object):
             setting_fields=self._visible_fields,
             after_save_callback=partial(self._after_settings_window_confirmed, window),
         )
-        self._appsettings.save()
 
     def always_on_top_changed(self, window: FnExecuteWindow, action: Action):
         self._appsettings.always_on_top = action.is_checked()

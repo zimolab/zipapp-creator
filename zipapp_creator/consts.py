@@ -17,6 +17,11 @@ APP_DATADIR = Path(platformdirs.user_data_dir(APP_NAME, ensure_exists=True))
 APP_LOCALES_DIR = APP_DATADIR / "locales"
 APP_SETTINGS_FILE = APP_DATADIR / "config.json"
 
+GLOBAL_VARNAME_DEBUG_FUNC = "_zipapp_creator_debug_"
+GLOBAL_VARNAME_ERROR_FUNC = "_zipapp_creator_error_"
+GLOBAL_VARNAME_TR_FUNC = "__tr__"
+GLOBAL_VARNAME_NTR_FUNC = "__ntr__"
+GLOBAL_VARNAME_APPSETTINGS = "_zipapp_creator_appsettings_"
 
 DEFAULT_TARGET_NAME = "{SOURCE}.pyz"
 DEFAULT_ENTRY_POINT = "main:main"

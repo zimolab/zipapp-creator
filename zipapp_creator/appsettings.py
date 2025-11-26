@@ -1,9 +1,12 @@
-from typing import Optional
+from pathlib import Path
+from typing import Optional, Union
 
 from pyguiadapterlite import JsonSettingsBase
 from pyguiadapterlite.types import LooseChoiceValue, BoolValue2
 
 from zipapp_creator.messages import messages
+
+ALL_LANGS = ["auto", "en_US", "zh_CN"]
 
 
 class AppSettings(JsonSettingsBase):
@@ -11,7 +14,7 @@ class AppSettings(JsonSettingsBase):
 
     locale = LooseChoiceValue(
         label=_msgs.MSG_LANGUAGE_FIELD,
-        choices=["auto", "en_US", "zh_CN"],
+        choices=ALL_LANGS,
         default_value="auto",
     )
     always_on_top = BoolValue2(
@@ -24,8 +27,8 @@ class AppSettings(JsonSettingsBase):
         super().__init__(**kwargs)
         self._filepath = None
 
-    def set_filepath(self, file_path: str):
-        self._filepath = file_path
+    def set_filepath(self, file_path: Union[str, Path]):
+        self._filepath = Path(file_path).absolute().as_posix()
 
     @property
     def filepath(self) -> Optional[str]:
@@ -34,7 +37,7 @@ class AppSettings(JsonSettingsBase):
     def save(
         self,
         file_path: str = None,
-        ensure_ascii=True,
+        ensure_ascii=False,
         indent=4,
         encoding="utf-8",
         **kwargs,
@@ -60,7 +63,7 @@ class AppSettings(JsonSettingsBase):
         **kwargs,
     ) -> "AppSettings":
         settings = super().load(file_path=file_path, encoding=encoding, **kwargs)
-        assert isinstance(settings, AppSettings)
+        assert isinstance(settings, cls)
         settings.set_filepath(file_path)
         return settings
 

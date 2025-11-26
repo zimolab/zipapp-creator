@@ -1,6 +1,12 @@
 import builtins
 from typing import Callable
 
+from zipapp_creator.consts import (
+    GLOBAL_VARNAME_TR_FUNC,
+    GLOBAL_VARNAME_NTR_FUNC,
+    GLOBAL_VARNAME_APPSETTINGS,
+)
+
 
 def default_tr(text: str) -> str:
     return text
@@ -14,7 +20,7 @@ def default_ntr(text: str, text_plural: str, count: int) -> str:
 
 
 def trfunc() -> Callable[[str], str]:
-    func = getattr(builtins, "__tr__", None)
+    func = getattr(builtins, GLOBAL_VARNAME_TR_FUNC, None)
     if func is None:
         print(
             "__tr__ function not found, i18n not prepared, a default function will be used"
@@ -24,7 +30,7 @@ def trfunc() -> Callable[[str], str]:
 
 
 def ntrfunc() -> Callable[[str, str, int], str]:
-    func = getattr(builtins, "__ntr__", None)
+    func = getattr(builtins, GLOBAL_VARNAME_NTR_FUNC, None)
     if func is None:
         print(
             "__ntr__ function not found, i18n not prepared, a default function will be used"
@@ -34,7 +40,7 @@ def ntrfunc() -> Callable[[str, str, int], str]:
 
 
 def get_appsettings():
-    appsettings = getattr(builtins, "_zipapp_creator_appsettings_", None)
+    appsettings = getattr(builtins, GLOBAL_VARNAME_APPSETTINGS, None)
     if appsettings is None:
         raise RuntimeError(
             "application is not initialized, please start the app from main.py"
