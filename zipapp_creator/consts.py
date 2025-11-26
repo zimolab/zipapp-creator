@@ -4,7 +4,7 @@ import platformdirs
 
 
 APP_NAME = "zipapp-creator"
-APP_VERSION = "0.1.0"
+APP_VERSION = "0.2.3"
 APP_DESCRIPTION = (
     "A tool to package your Python project into zipapp with its dependencies."
 )
