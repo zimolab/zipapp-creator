@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "zipapp-creator"
-version = "0.2.2"
+version = "0.2.3"
 description = ""
 authors = ["zimolab <zimolab@aliyun.com>"]
 readme = "README.md"
