@@ -8,7 +8,7 @@ import sys
 import threading
 import time
 from pathlib import Path
-from typing import Literal
+from typing import Literal, Union, List, Set
 
 from pyguiadapterlite import uprint, is_function_cancelled
 
@@ -88,9 +88,9 @@ def read_process_output(process: subprocess.Popen) -> bool:
 
 
 def pip_install(
-    py: str | Path,
-    requirements: str | Path,
-    target_dir: str | Path,
+    py: Union[str, Path],
+    requirements: Union[str, Path],
+    target_dir: Union[str, Path],
     index_url: str = None,
 ):
     msgs = messages()
@@ -123,12 +123,13 @@ def pip_install(
         raise CanceledByUser(msgs.MSG_PIP_INSTALL_CANCELLED)
 
     if process.returncode != 0:
+        uprint(process.stdout.read())
         raise RuntimeError(f"non-zero exit code from pip install: {process.returncode}")
 
     success(msgs.MSG_PIP_INSTALL_SUCCESS)
 
 
-def cleanup_dependency(target_dir: str | Path):
+def cleanup_dependency(target_dir: Union[str, Path]):
     target_dir = Path(target_dir)
     msgs = messages()
     info(msgs.MSG_CLEANUP_DEPENDENCIES)
@@ -154,7 +155,7 @@ def cleanup_dependency(target_dir: str | Path):
 
 
 def copy_source_tree(
-    source_dir: str | Path, dist_dir: str | Path, ignore_patterns: list[str]
+    source_dir: Union[str, Path], dist_dir: Union[str, Path], ignore_patterns: List[str]
 ):
     source_dir = Path(source_dir).absolute().as_posix()
     dist_dir = Path(dist_dir).absolute().as_posix()
@@ -174,11 +175,11 @@ def copy_source_tree(
 
 
 def ignored_files(
-    start_dir: str | Path,
-    patterns: list[str],
+    start_dir: Union[str, Path],
+    patterns: List[str],
     path_type: Literal["Path", "absolute", "relative"] = "Path",
     posix: bool = True,
-) -> set[Path]:
+) -> Set[Path]:
     start_dir = Path(start_dir)
     ignored = set()
     for pattern in patterns:

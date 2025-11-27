@@ -2,7 +2,7 @@ import traceback
 import zipapp
 from pathlib import Path
 from string import Template
-from typing import Callable
+from typing import Callable, Union, Dict
 
 from pyguiadapterlite import GUIAdapter, FnExecuteWindowConfig, FnExecuteWindow
 from pyguiadapterlite.types import (
@@ -60,7 +60,7 @@ class ZipAppCreator(object):
     @staticmethod
     def _packaging_filter(
         exclude_patterns: string_list, target_dir: Path
-    ) -> Callable[[str | Path], bool]:
+    ) -> Callable[[Union[str, Path]], bool]:
 
         ignored = ignored_files(
             target_dir, exclude_patterns, path_type="relative", posix=True
@@ -72,7 +72,7 @@ class ZipAppCreator(object):
         return _filter
 
     def _create_start_script(
-        self, zipapp_file: str | Path, start_script_py: str
+        self, zipapp_file: Union[str, Path], start_script_py: str
     ) -> Path:
         zipapp_file = Path(zipapp_file)
         zipapp_dir = zipapp_file.parent
@@ -189,7 +189,7 @@ class ZipAppCreator(object):
         start_script: bool_t,
         start_script_py: str,
         **kwargs,
-    ) -> dict[str, str]:
+    ) -> Dict[str, str]:
         tr = trfunc()
         _ = func_name
         invalid_params = {}

@@ -1,7 +1,7 @@
 import json
 import sys
 from pathlib import Path
-from typing import List
+from typing import List, Union
 
 from functools import partial
 from pyguiadapterlite import Menu, Action, FnExecuteWindow, Separator
@@ -143,7 +143,7 @@ class WindowMenus(object):
     def request_exit(self, window: FnExecuteWindow, action: Action):
         window.close()
 
-    def _create_file_actions(self) -> List[Action | Separator]:
+    def _create_file_actions(self) -> List[Union[Action, Separator]]:
         return [
             Action(self._msgs.MSG_ACTION_SAVE_PARAMS, self.save_parameters),
             Action(self._msgs.MSG_ACTION_LOAD_PARAMS, self.load_parameters),
@@ -153,7 +153,7 @@ class WindowMenus(object):
             Action(self._msgs.MSG_ACTION_EXIT, self.request_exit),
         ]
 
-    def _create_view_actions(self) -> List[Action | Separator]:
+    def _create_view_actions(self) -> List[Union[Action, Separator]]:
         return [
             Action(
                 self._msgs.MSG_ACTION_ALWAYS_ON_TOP,
@@ -163,7 +163,7 @@ class WindowMenus(object):
             )
         ]
 
-    def _create_help_actions(self) -> List[Action | Separator]:
+    def _create_help_actions(self) -> List[Union[Action, Separator]]:
         return [
             Action(
                 self._msgs.MSG_ACTION_ABOUT,
