@@ -70,7 +70,8 @@ class _Messages(object):
             "Or you can just leave it empty if there is a __main__.py file in the source directory!"
         )
         self.MSG_HOST_PYTHON_REQUIRED = tr(
-            "Please specify the host python interpreter which will be used for pip-install!"
+            "host python is not specified, it is required to execute the pip install command! "
+            "Use current python interpreter as host python."
         )
         self.MSG_REQUIREMENTS_FILE_NOT_FOUND = tr(
             "The requirements file not found in the source directory!"
