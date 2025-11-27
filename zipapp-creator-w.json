@@ -34,7 +34,7 @@
     "*.egg-info",
     "*.whl"
   ],
-  "host_py": "python3",
+  "host_py": "python",
   "requirements": "",
   "pip_index_url": "",
   "cleanup_dependencies": true

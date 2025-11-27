@@ -1,3 +1,4 @@
+import sys
 import traceback
 import zipapp
 from pathlib import Path
@@ -20,6 +21,7 @@ from pyguiadapterlite.types import (
 from .utils import (
     info,
     error,
+    warning,
     success,
     pip_install,
     cleanup_dependency,
@@ -99,9 +101,13 @@ class ZipAppCreator(object):
         pip_index_url: str,
         cleanup_dependencies: bool_t,
         self_extract: bool_t,
-        start_script: bool_t,
-        start_script_py: str,
     ):
+
+        host_py = host_py.strip()
+        if not host_py:
+            warning(self._msgs.MSG_HOST_PYTHON_REQUIRED)
+            host_py = Path(sys.executable).absolute().as_posix()
+            info(f"Current python interpreter: {host_py}")
 
         cleanup_dependencies = bool(cleanup_dependencies)
         self_extract = bool(self_extract)
@@ -163,15 +169,6 @@ class ZipAppCreator(object):
 
             success(self._msgs.MSG_ZIPAPP_CREATED.format(target.as_posix()))
 
-            if start_script:
-                info(self._msgs.MSG_CREATING_STARTUP_SCRIPT)
-                script_path = self._create_start_script(
-                    target.as_posix(), start_script_py
-                )
-                success(
-                    self._msgs.MSG_STARTUP_SCRIPT_CREATED.format(script_path.as_posix())
-                )
-
         except Exception as e:
             traceback.print_exc()
             error(self._msgs.MSG_CREATE_ZIPAPP_FAILURE.format(str(e)))
@@ -186,8 +183,6 @@ class ZipAppCreator(object):
         self_extract: bool_t,
         host_py: file_t,
         requirements: file_t,
-        start_script: bool_t,
-        start_script_py: str,
         **kwargs,
     ) -> Dict[str, str]:
         tr = trfunc()
@@ -221,9 +216,9 @@ class ZipAppCreator(object):
                     elif not is_valid_entry_point(entry):
                         invalid_params["entry"] = self._msgs.MSG_INVALID_ENTRY_FORMAT
 
-        host_py = host_py.strip()
-        if not host_py:
-            invalid_params["host_py"] = self._msgs.MSG_HOST_PYTHON_REQUIRED
+        # host_py = host_py.strip()
+        # if not host_py:
+        #     invalid_params["host_py"] = self._msgs.MSG_HOST_PYTHON_REQUIRED
 
         requirements = requirements.strip()
         if source and requirements:
@@ -232,10 +227,6 @@ class ZipAppCreator(object):
                 invalid_params["requirements"] = (
                     self._msgs.MSG_REQUIREMENTS_FILE_NOT_FOUND
                 )
-
-        start_script_py = start_script_py.strip()
-        if start_script and not start_script_py:
-            invalid_params["start_script_py"] = self._msgs.MSG_SCRIPT_PYTHON_REQUIRED
 
         return invalid_params
 

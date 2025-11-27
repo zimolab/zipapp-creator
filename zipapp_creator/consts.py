@@ -26,7 +26,7 @@ GLOBAL_VARNAME_APPSETTINGS = "_zipapp_creator_appsettings_"
 DEFAULT_TARGET_NAME = "{SOURCE}.pyz"
 DEFAULT_ENTRY_POINT = "main:main"
 DEFAULT_SHEBANG = "/usr/bin/env python3"
-DEFAULT_HOST_INTERPRETER = "python3"
+DEFAULT_HOST_INTERPRETER = "python"
 DEFAULT_COPY_EXCLUDE_PATTERNS = [
     "venv",
     ".venv",
