@@ -1,0 +1,1 @@
+pyinstaller --clean --onefile --additional-hooks-dir=./ --name zipapp-creator_x86_64.exe main.py
