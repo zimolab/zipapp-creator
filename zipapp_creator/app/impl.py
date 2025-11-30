@@ -1,3 +1,4 @@
+import os.path
 import sys
 import traceback
 import zipapp
@@ -116,8 +117,9 @@ class ZipAppCreator(object):
         source = Path(source).absolute()
         info(self._msgs.MSG_START_PACKAGING)
 
-        dist_root_dir = (source / Path(DIST_DIR)).absolute()
-        dist_proj_dir = (dist_root_dir / source.name).absolute()
+        dist_root_dir = (os.path.normpath(source) / Path(DIST_DIR)).absolute()
+        proj_name = Path(os.path.normpath(source)).name
+        dist_proj_dir = Path(os.path.normpath(dist_root_dir)).joinpath(proj_name).absolute()
         info(self._msgs.MSG_COPY_SOURCE_FILES.format(dist_proj_dir.as_posix()))
 
         exclude_from_copy = exclude_from_copy or []

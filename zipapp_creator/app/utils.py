@@ -157,8 +157,8 @@ def cleanup_dependency(target_dir: Union[str, Path]):
 def copy_source_tree(
     source_dir: Union[str, Path], dist_dir: Union[str, Path], ignore_patterns: List[str]
 ):
-    source_dir = Path(source_dir).absolute().as_posix()
-    dist_dir = Path(dist_dir).absolute().as_posix()
+    source_dir = os.path.normpath(Path(source_dir).absolute().as_posix())
+    dist_dir = os.path.normpath(Path(dist_dir).absolute().as_posix())
 
     if os.path.isdir(dist_dir):
         shutil.rmtree(dist_dir, ignore_errors=True)
