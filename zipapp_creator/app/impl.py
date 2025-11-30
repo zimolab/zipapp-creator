@@ -257,7 +257,10 @@ class ZipAppCreator(object):
                 parent=window.parent,
             ):
                 return False
-        self._appsettings.save()
+        try:
+            self._appsettings.save()
+        except Exception as e:
+            window.show_error(self._msgs.MSG_SAVE_SETTINGS_ERROR, detail=str(e))
         return True
 
     def run(self):
