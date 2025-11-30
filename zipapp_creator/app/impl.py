@@ -43,6 +43,7 @@ from ..consts import (
     START_SCRIPT_TEMPLATE,
     APP_NAME,
     APP_VERSION,
+    APP_SETTINGS_FILE,
 )
 from ..messages import messages
 from ..selfextracting import create_startup_script
@@ -258,7 +259,7 @@ class ZipAppCreator(object):
             ):
                 return False
         try:
-            self._appsettings.save()
+            self._appsettings.save(APP_SETTINGS_FILE)
         except Exception as e:
             window.show_error(self._msgs.MSG_SAVE_SETTINGS_ERROR, detail=str(e))
         return True

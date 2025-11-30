@@ -12,6 +12,7 @@ from .dialogs import AboutDialog
 from .. import assets
 from ..appsettings import AppSettings
 from ..common import get_appsettings
+from ..consts import APP_SETTINGS_FILE
 from ..messages import messages
 from ..utils import move_to_center_of
 
@@ -59,7 +60,7 @@ class WindowMenus(object):
         self, window: FnExecuteWindow, appsettings: AppSettings
     ):
         try:
-            appsettings.save()
+            appsettings.save(APP_SETTINGS_FILE)
         except BaseException as e:
             window.show_error(self._msgs.MSG_SAVE_SETTINGS_ERROR, detail=str(e))
         else:

@@ -56,14 +56,17 @@ if __name__ == "__main__":
             assets.export_builtin_locales(app_locale_dir.as_posix(), overwrite=True)
 
         lang = DEFAULT_LOCALE_CODE
-        try:
-            with open(APP_SETTINGS_FILE, "r", encoding="utf-8") as f:
-                appsettings_obj = json.load(f)
-                lang = str(appsettings_obj.get("locale", DEFAULT_LOCALE_CODE)).strip()
-        except Exception as e:
-            _error(
-                f"Failed to load app settings from file, use default locale: {APP_SETTINGS_FILE}: {e}"
-            )
+        if os.path.exists(APP_SETTINGS_FILE):
+            try:
+                with open(APP_SETTINGS_FILE, "r", encoding="utf-8") as f:
+                    appsettings_obj = json.load(f)
+                    lang = str(
+                        appsettings_obj.get("locale", DEFAULT_LOCALE_CODE)
+                    ).strip()
+            except Exception as e:
+                _error(
+                    f"Failed to load app settings from file, use default locale: {APP_SETTINGS_FILE}: {e}"
+                )
 
         _debug(f"Setting app locale to:  {lang}")
 

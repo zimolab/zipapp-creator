@@ -47,6 +47,7 @@ class AppSettings(JsonSettingsBase):
 
         if not file_path:
             raise FileNotFoundError("please specify save filepath")
+
         super().save(
             file_path=file_path,
             ensure_ascii=ensure_ascii,
@@ -54,6 +55,7 @@ class AppSettings(JsonSettingsBase):
             encoding=encoding,
             **kwargs,
         )
+        self.set_filepath(file_path)
 
     @classmethod
     def load(
