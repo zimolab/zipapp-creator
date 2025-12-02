@@ -36,5 +36,3 @@ solves the following problems:
   - Make it is easy to access the assets files inside the package using regular 
   apis, such as  `importlib.resources` or `pkgutil.resource_filename`.
 
-- Create a startup script of the output zipapp on Windows os.
-
